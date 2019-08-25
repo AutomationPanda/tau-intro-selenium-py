@@ -141,129 +141,7 @@ and it should fail due to the "Incomplete Test" exception.
 
 Finally, commit your code change. Part 1 is complete!
 
-### Part 2: Defining Page Objects
-
-*Time Estimate: 8 Minutes*
-
-A **page object** is an object representing a Web page or component.
-They have *locators* for finding elements,
-as well as *interaction methods* that interact with the page under test.
-Page objects make low-level Selenium WebDriver calls
-so that tests can make short, readable calls instead of complex ones.
-
-Since we have our test steps, we know what pages and elements our test needs.
-There are two pages under test, each with a few interactions:
-
-1. The DuckDuckGo search page
-   * Load the page
-   * Search a phrase
-2. The DuckDuckGo results page
-   * Get the results
-   * Get the search query
-   * Get the title
-
-Understanding interactions with the Web app is more important than the code.
-We can write stubs for page object classes as we figure out the interactions.
-
-Create a new Python package named `pages`.
-To do this create a directory under the root directory named `pages`.
-Then, put a blank file in it named `__init__.py`.
-The `pages` directory shoult *not* be under the `tests` directory.
-Why? When using pytest, the `tests` folder should *not* be a package.
-
-Create a new module named `pages/search.py` and add the following code
-for the DuckDuckGo search page:
-
-```python
-"""
-This module contains DuckDuckGoSearchPage,
-the page object for the DuckDuckGo search page.
-"""
-
-
-class DuckDuckGoSearchPage:
-
-  def load(self):
-    # TODO
-    pass
-
-  def search(self, phrase):
-    # TODO
-    pass
-```
-
-Create another new module named `pages/result.py` and add the following code
-for the DuckDuckGo result page:
-
-```python
-"""
-This module contains DuckDuckGoResultPage,
-the page object for the DuckDuckGo search result page.
-"""
-
-
-class DuckDuckGoResultPage:
-  
-  def result_count_for_phrase(self, phrase):
-    # TODO
-    return 0
-  
-  def search_input_value(self):
-    # TODO
-    return ""
-
-  def title(self):
-    # TODO
-    return ""
-```
-
-Finally, update `test_basic_duckduckgo_search` in `tests/test_search.py`
-with the following code:
-
-```python
-"""
-These tests cover DuckDuckGo searches.
-"""
-
-from pages.result import DuckDuckGoResultPage
-from pages.search import DuckDuckGoSearchPage
-
-
-def test_basic_duckduckgo_search():
-  search_page = DuckDuckGoSearchPage()
-  result_page = DuckDuckGoResultPage()
-  PHRASE = "panda"
-  
-  # Given the DuckDuckGo home page is displayed
-  search_page.load()
-
-  # When the user searches for "panda"
-  search_page.search(PHRASE)
-
-  # Then the search result title contains "panda"
-  assert PHRASE in result_page.title()
-  
-  # And the search result query is "panda"
-  assert PHRASE == result_page.search_input_value()
-  
-  # And the search result links pertain to "panda"
-  assert result_page.result_count_for_phrase(PHRASE) > 0
-
-  # TODO: Remove this exception once the test is complete
-  raise Exception("Incomplete Test")
-```
-
-Notice how we are able to write all the test steps using page object calls and assertions.
-We also kept the step comments so the code is well-documented.
-Even though we haven't made any Selenium WebDriver calls, our test case function is nearly complete!
-Our code is readable and understandable.
-It delivers clear testing value.
-
-Rerun the test using `pipenv run python -m pytest`.
-The test should fail again, but this time, it should fail on one of the assertions.
-Then, commit your latest code changes. Part 2 is now complete!
-
-### Part 3: Setting Up Selenium WebDriver
+### Part 2: Setting Up Selenium WebDriver
 
 *Time Estimate: 8 Minutes*
 
@@ -328,44 +206,159 @@ Now, update `test_basic_duckduckgo_search` in `tests/test_search.py` to call the
 
 ```python
 def test_basic_duckduckgo_search(browser):
-  search_page = DuckDuckGoSearchPage(browser)
-  result_page = DuckDuckGoResultPage(browser)
   # ...
 ```
 
-Every page object needs a reference to the WebDriver instance.
-Update the page object classes to have `__init__` methods.
-
-In `pages/search.py`:
-
-```python
-class DuckDuckGoSearchPage:
-
-  def __init__(self, browser):
-    self.browser = browser
-
-  # ...
-```
-
-And in `pages/result.py`:
-
-```python
-class DuckDuckGoResultPage:
-  
-  def __init__(self, browser):
-    self.browser = browser
-
-  # ...
-```
+Whenever a pytest test function declares a fixture by name as an argument,
+pytest will automatically call that fixture before the test runs.
+Whatever the fixture returns will be passed into the test function.
+Therefore, we can access the WebDriver instance using the `browser` variable!
 
 Rerun the test using `pipenv run python -m pytest` to test the fixture.
 Even though the test should still fail,
 Chrome should briefly pop up for a few seconds while the test is running.
 Make sure Chrome quits once the test is done.
 Then, commit your latest code changes.
-Part 3 is now complete!
+Part 2 is now complete!
 
-### Part 4: Making WebDriver Calls
+### Part 3: Defining Page Objects
+
+*Time Estimate: 8 Minutes*
+
+A **page object** is an object representing a Web page or component.
+They have *locators* for finding elements,
+as well as *interaction methods* that interact with the page under test.
+Page objects make low-level Selenium WebDriver calls
+so that tests can make short, readable calls instead of complex ones.
+
+Since we have our test steps, we know what pages and elements our test needs.
+There are two pages under test, each with a few interactions:
+
+1. The DuckDuckGo search page
+   * Load the page
+   * Search a phrase
+2. The DuckDuckGo results page
+   * Get the results
+   * Get the search query
+   * Get the title
+
+Understanding interactions with the Web app is more important than the code.
+We can write stubs for page object classes as we figure out the interactions.
+
+Create a new Python package named `pages`.
+To do this create a directory under the root directory named `pages`.
+Then, put a blank file in it named `__init__.py`.
+The `pages` directory shoult *not* be under the `tests` directory.
+Why? When using pytest, the `tests` folder should *not* be a package.
+
+Create a new module named `pages/search.py` and add the following code
+for the DuckDuckGo search page:
+
+```python
+"""
+This module contains DuckDuckGoSearchPage,
+the page object for the DuckDuckGo search page.
+"""
+
+
+class DuckDuckGoSearchPage:
+
+  def __init__(self, browser):
+    self.browser = browser
+
+  def load(self):
+    # TODO
+    pass
+
+  def search(self, phrase):
+    # TODO
+    pass
+```
+
+Create another new module named `pages/result.py` and add the following code
+for the DuckDuckGo result page:
+
+```python
+"""
+This module contains DuckDuckGoResultPage,
+the page object for the DuckDuckGo search result page.
+"""
+
+
+class DuckDuckGoResultPage:
+  
+  def __init__(self, browser):
+    self.browser = browser
+
+  def result_count_for_phrase(self, phrase):
+    # TODO
+    return 0
+  
+  def search_input_value(self):
+    # TODO
+    return ""
+
+  def title(self):
+    # TODO
+    return ""
+```
+
+Every page object needs a reference to the WebDriver instance.
+That's why the `__init__` methods take in and store a reference to `browser`.
+
+Finally, update `test_basic_duckduckgo_search` in `tests/test_search.py`
+with the following code:
+
+```python
+"""
+These tests cover DuckDuckGo searches.
+"""
+
+from pages.result import DuckDuckGoResultPage
+from pages.search import DuckDuckGoSearchPage
+
+
+def test_basic_duckduckgo_search(browser):
+  search_page = DuckDuckGoSearchPage(browser)
+  result_page = DuckDuckGoResultPage(browser)
+  PHRASE = "panda"
+  
+  # Given the DuckDuckGo home page is displayed
+  search_page.load()
+
+  # When the user searches for "panda"
+  search_page.search(PHRASE)
+
+  # Then the search result title contains "panda"
+  assert PHRASE in result_page.title()
+  
+  # And the search result query is "panda"
+  assert PHRASE == result_page.search_input_value()
+  
+  # And the search result links pertain to "panda"
+  assert result_page.result_count_for_phrase(PHRASE) > 0
+
+  # TODO: Remove this exception once the test is complete
+  raise Exception("Incomplete Test")
+```
+
+Notice how we are able to write all the test steps using page object calls and assertions.
+We also kept the step comments so the code is well-documented.
+Even though we haven't made any Selenium WebDriver calls, our test case function is nearly complete!
+Our code is readable and understandable.
+It delivers clear testing value.
+
+Rerun the test using `pipenv run python -m pytest`.
+The test should fail again, but this time, it should fail on one of the assertions.
+Then, commit your latest code changes. Part 3 is now complete!
+
+### Part 4: Finding Locators
+
+**TBD**
+
+### Part 5: Making WebDriver Calls
+
+**TODO: rewrite this part after writing the locators part**
 
 *Time Estimate: 16 Minutes*
 
@@ -599,6 +592,14 @@ The test will take a few second to run because it must wait for page loads.
 Chrome should pop up and automatically go though all test steps.
 Try not to interfere with the browser as the test runs.
 Make sure pytest doesn't report any failures when it completes.
+
+### Part 6: Configuring Multiple Browsers
+
+**TBD**
+
+### Part 7: Parallel Testing
+
+**TBD**
 
 Congrats! You have completed the guided part of this tutorial!
 
