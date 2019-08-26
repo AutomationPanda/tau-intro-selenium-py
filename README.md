@@ -523,10 +523,11 @@ class DuckDuckGoResultPage:
 Thankfully, the search input element on the result page
 uses the same locator as the one on the search page.
 The locator for the search phrase results is a bit trickier, though.
-It should find any links or link descriptions that contain the search phrase.
-That means its query needs to embed the search phrase!
-Thus, it is written as a static method that takes in the phrase.
+It must find all result elements that contain the search phrase in their display texts.
+This locator will return a list of elements, not just one.
+I is written as a static method so that it can take in the phrase dynamically.
 The XPath will return all elements under the "links" div that contain the text of the phrase.
+The method returns a tuple so that it can be used like other locators.
 
 We should always try to use the simplest locator that uniquely finds the target elements.
 IDs, names, and class names are the easiest,
@@ -566,26 +567,15 @@ The `search` method is a bit more complex because it interacts with an element.
 We need to use a *locator* to find the search input element,
 and then we need to *send keys* to type the search phrase into the element.
 
-First, import some key pieces from the `selenium` package:
+First, update the `selenium` package imports:
 
 ```python
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 ```
 
-Then, write a locator for the search input element.
-If we inspect the page's HTML, we can see that the search element has a "name" attribute set to "q".
-Therefore, we can use the `By.NAME` locator to find the element like this:
-
-```python
-SEARCH_INPUT = (By.NAME, 'q')
-```
-
-It's good practice to write locators as page object class variables.
-That way, the locator can be reused by multiple page object methods.
-It is also good to write them as tuples - and we will see why next.
-
-The `search` method needs two parts: finding the element and sending the keystrokes:
+The `search` method needs two parts: finding the element and sending the keystrokes.
+Thankfully, we already have the locator for the element.
 
 ```python
 def search(self, phrase):
@@ -594,13 +584,13 @@ def search(self, phrase):
 ```
 
 The `find_element` method will return the first element found by the locator.
-Notice how the locator uses the `*` operator to expand the tuple into arguments.
+Notice how the locator uses the `*` operator to expand the SEARCH_INPUT locator tuple into arguments.
 The `selenium` package offers specific locator type methods (like `find_element_by_name`),
 but using the generic `find_element` method with argument expansion is better practice.
 If the locator type must be changed due to Web page updates,
-then the `find_elements` call would not need to be changed.
+then the `find_element` call would not need to be changed.
 
-The `send_keys` call sends the search phrase passed into the `search` method.
+The `send_keys` method sends the search phrase passed into the `search` method.
 This means that the page object can search any phrase!
 The addition of `Keys.RETURN` will send the ENTER/RETURN key as well,
 which will submit the input value to perform the search and load the results page.
@@ -652,48 +642,32 @@ def title(self):
 
 The `search_input_value` method is similar to the `search` method from `DuckDuckGoSearchPage`,
 but instead of sending a command, it asks for state from the page.
-Thankfully, it uses the same locator.
-(The "value" attribute contains the text a user types into an "input" element.)
+The "value" attribute contains the text a user types into an "input" element.
 
 ```python
-from selenium.webdriver.common.by import By
-
-SEARCH_INPUT = (By.NAME, 'q')
-
 def search_input_value(self):
   search_input = self.browser.find_element(*self.SEARCH_INPUT)
   return search_input.get_attribute('value')
 ```
 
-The `result_count_for_phrase` method is the most complex.
+The `result_count_for_phrase` method is a bit more complex.
 The test must verify that the result page displays links relating to the search phrase.
 This method should find all result links that contain the search phrase in their display texts.
 Then, it should return the count.
-The test asserts that the count is greater than zero.
+Remember, the test asserts that the count is greater than zero.
 This assertion may seem weak because it could allow some results to be unrelated to the phrase,
 but it is good enough for the nature of a basic search test.
 (A more rigorous test could and should more carefully cover search result goodness.)
 
-How can we write a locator that finds elements based on text?
-We can use XPath:
-
-```python
-@classmethod
-def PHRASE_RESULTS(cls, phrase):
-  xpath = f"//div[@id='links']//*[contains(text(), '{phrase}')]"
-  return (By.XPATH, xpath)
-```
-
-`PHRASE_RESULT` is a method because the phrase is a parameter for the XPath.
-It still returns a tuple so that it can work like other locators.
-
-The `result_count_for_phrase` method uses it like this:
+The `result_count_for_phrase` method should look like this:
 
 ```python
 def result_count_for_phrase(self, phrase):
   results = self.browser.find_elements(*self.PHRASE_RESULTS(phrase))
   return len(results)
 ```
+
+Notice that it uses `find_elements` (plural) to get a list of matching elements.
 
 The full code for `pages/result.py` should look like this:
 
@@ -712,8 +686,8 @@ class DuckDuckGoResultPage:
 
   SEARCH_INPUT = (By.NAME, 'q')
 
-  @classmethod
-  def PHRASE_RESULTS(cls, phrase):
+  @staticmethod
+  def PHRASE_RESULTS(phrase):
     xpath = f"//div[@id='links']//*[contains(text(), '{phrase}')]"
     return (By.XPATH, xpath)
 
