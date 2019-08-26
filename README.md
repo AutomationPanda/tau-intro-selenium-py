@@ -525,7 +525,7 @@ uses the same locator as the one on the search page.
 The locator for the search phrase results is a bit trickier, though.
 It must find all result elements that contain the search phrase in their display texts.
 This locator will return a list of elements, not just one.
-I is written as a static method so that it can take in the phrase dynamically.
+It is written as a static method so that it can take in the phrase dynamically.
 The XPath will return all elements under the "links" div that contain the text of the phrase.
 The method returns a tuple so that it can be used like other locators.
 
@@ -541,8 +541,6 @@ rerun it using `pipenv run python -m pytest` to make sure our changes did no har
 Then, commit your latest code changes. Part 4 is now complete!
 
 ### Part 5: Making WebDriver Calls
-
-**TODO: rewrite this part after writing the locators part**
 
 *Time Estimate: 16 Minutes*
 
