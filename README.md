@@ -354,7 +354,182 @@ Then, commit your latest code changes. Part 3 is now complete!
 
 ### Part 4: Finding Locators
 
-**TBD**
+*Time Estimate: 8 Minutes*
+
+Every "thing" on a Web page is a Web *element*:
+buttons, labels, dropdowns, input fields, etc.
+Elements on the page are specified using HTML.
+Tests use page objects to interact with elements.
+
+Interactions typically require three steps:
+
+1. Wait for the target element to exist
+2. Get an object representing the target element
+3. Send commands to the element object
+
+In our solution, waiting is handled implicitly,
+thanks to the `implicitly_wait` call in the browser fixture.
+Getting the element object, however, requires a locator.
+
+*Locators* are query strings that use HTML attributes to find elements on a Web page.
+There are many types of locators:
+
+* ID
+* Name
+* Class name
+* CSS Selector
+* XPath
+* Link test
+* Partial link test
+* Tag name
+
+For example, if the page has the following element:
+
+```html
+<button id="django_ok">OK</button>
+```
+
+Then, an ID locator for "django_ok" could be used to get this element.
+
+Locators are not element objects themselves but instead point to elements. 
+The WebDriver instance will use locators to fetch and construct element objects.
+Why are locators and elements separate concerns?
+Elements on a page are always changing:
+they may take time to load, or they may change with user interaction.
+Locators, however, are always the same:
+they simply specify how to get elements.
+For example, a locator could be used to prove that an element does *not* exist.
+
+For our test, we need locators for three elements:
+
+1. The search input on the DuckDuckGo search page
+2. The search input on the DuckDuckGo results page
+3. The search phrase results on the DuckDuckGo results page
+
+(Note: The page title is not a Web element. It can be fetched as a `browser` property.)
+
+Writing good locators is a bit of an art.
+Inspecting the HTML source of a live page makes it easy.
+To do this, open the [DuckDuckGo search page](https://duckduckgo.com/) in Chrome.
+Then, right-click the page and select "Inspect".
+[Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools/) will open.
+The "Elements" tab shows the HTML source.
+As you move the cursor over HTML elements in the source,
+Chrome will highlight the elements on the page.
+Now, click the icon with the box and cursor in the upper-left corner of the DevTools pane.
+Move the cursor over elements on the page, and you will see them highlighted in the source.
+Neat!
+
+Try to find the search input element.
+Its HTML should look like this:
+
+```html
+<input id="search_form_input_homepage" class="js-search-input search__input--adv" type="text" autocomplete="off" name="q" tabindex="1" value="" autocapitalize="off" autocorrect="off">
+```
+
+Notice that there is a `name` attribute set to "q".
+Let's use this as our locator and update `pages/search.py`.
+
+First, import `By` from the `selenium` package so we can write locators:
+
+```python
+from selenium.webdriver.common.by import By
+```
+
+Then, add the following attribute to the `DuckDuckGoSearchPage` class:
+
+```python
+SEARCH_INPUT = (By.NAME, 'q')
+```
+
+`By` contains property keys for each type of locator.
+We can write locators as tuples of the locator type and the query string.
+(We will use this locator for interaction calls in the next part of the tutorial.)
+
+The full code for `pages/search.py` should now look like this:
+
+```python
+"""
+This module contains DuckDuckGoSearchPage,
+the page object for the DuckDuckGo search page.
+"""
+
+from selenium.webdriver.common.by import By
+
+
+class DuckDuckGoSearchPage:
+
+  SEARCH_INPUT = (By.NAME, 'q')
+
+  def __init__(self, browser):
+    self.browser = browser
+
+  def load(self):
+    # TODO
+    pass
+
+  def search(self, phrase):
+    # TODO
+    pass
+```
+
+Let's write locators for the `DuckDuckGoResultPage` next.
+Perform a search, inspect the page, and try to come up with locators on your own!
+
+Below is the code for `pages/result.py` with locators:
+
+```python
+"""
+This module contains DuckDuckGoResultPage,
+the page object for the DuckDuckGo search result page.
+"""
+
+from selenium.webdriver.common.by import By
+
+
+class DuckDuckGoResultPage:
+  
+  SEARCH_INPUT = (By.NAME, 'q')
+
+  @staticmethod
+  def PHRASE_RESULTS(phrase):
+    xpath = f"//div[@id='links']//*[contains(text(), '{phrase}')]"
+    return (By.XPATH, xpath)
+  
+  def __init__(self, browser):
+    self.browser = browser
+
+  def result_count_for_phrase(self, phrase):
+    # TODO
+    return 0
+  
+  def search_input_value(self):
+    # TODO
+    return ""
+
+  def title(self):
+    # TODO
+    return ""
+```
+
+Thankfully, the search input element on the result page
+uses the same locator as the one on the search page.
+The locator for the search phrase results is a bit trickier, though.
+It should find any links or link descriptions that contain the search phrase.
+That means its query needs to embed the search phrase!
+Thus, it is written as a static method that takes in the phrase.
+The XPath will return all elements under the "links" div that contain the text of the phrase.
+
+Remember, we should always try to use the simplest locator that uniquely finds the target elements.
+IDs, names, and class names are the easiest,
+but sometimes, we must use CSS selectors and XPaths.
+To learn more about writing good locators,
+take the [Web Element Locator Strategies](https://testautomationu.applitools.com/web-element-locator-strategies/) course
+from [Test Automation University](https://testautomationu.applitools.com/).
+
+Although our test will still fail,
+rerun it using `pipenv run python -m pytest` to make sure our changes did no harm.
+Then, commit your latest code changes. Part 4 is now complete!
 
 ### Part 5: Making WebDriver Calls
 
