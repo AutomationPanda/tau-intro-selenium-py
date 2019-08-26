@@ -435,7 +435,7 @@ Its HTML should look like this:
   autocorrect="off">
 ```
 
-Notice that there is a `name` attribute set to "q".
+Notice that there is an `id` attribute set to "search_form_input_homepage".
 Let's use this as our locator and update `pages/search.py`.
 
 First, import `By` from the `selenium` package so we can write locators:
@@ -447,7 +447,7 @@ from selenium.webdriver.common.by import By
 Then, add the following attribute to the `DuckDuckGoSearchPage` class:
 
 ```python
-SEARCH_INPUT = (By.NAME, 'q')
+SEARCH_INPUT = (By.ID, 'search_form_input_homepage')
 ```
 
 `By` contains property keys for each type of locator.
@@ -467,7 +467,7 @@ from selenium.webdriver.common.by import By
 
 class DuckDuckGoSearchPage:
 
-  SEARCH_INPUT = (By.NAME, 'q')
+  SEARCH_INPUT = (By.ID, 'search_form_input_homepage')
 
   def __init__(self, browser):
     self.browser = browser
@@ -497,7 +497,7 @@ from selenium.webdriver.common.by import By
 
 class DuckDuckGoResultPage:
   
-  SEARCH_INPUT = (By.NAME, 'q')
+  SEARCH_INPUT = (By.ID, 'search_form_input')
 
   @staticmethod
   def PHRASE_RESULTS(phrase):
@@ -613,7 +613,7 @@ class DuckDuckGoSearchPage:
 
   # Locators
 
-  SEARCH_INPUT = (By.NAME, 'q')
+  SEARCH_INPUT = (By.ID, 'search_form_input_homepage')
 
   # Initializer
 
@@ -682,7 +682,7 @@ class DuckDuckGoResultPage:
   
   # Locators
 
-  SEARCH_INPUT = (By.NAME, 'q')
+  SEARCH_INPUT = (By.ID, 'search_form_input')
 
   @staticmethod
   def PHRASE_RESULTS(phrase):
