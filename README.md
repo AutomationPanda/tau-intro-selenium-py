@@ -367,8 +367,7 @@ Interactions typically require three steps:
 2. Get an object representing the target element
 3. Send commands to the element object
 
-In our solution, waiting is handled implicitly,
-thanks to the `implicitly_wait` call in the browser fixture.
+In our solution, waiting is handled automatically thanks to the browser fixture's `implicitly_wait` call.
 Getting the element object, however, requires a locator.
 
 *Locators* are query strings that use HTML attributes to find elements on a Web page.
@@ -424,7 +423,16 @@ Try to find the search input element.
 Its HTML should look like this:
 
 ```html
-<input id="search_form_input_homepage" class="js-search-input search__input--adv" type="text" autocomplete="off" name="q" tabindex="1" value="" autocapitalize="off" autocorrect="off">
+<input
+  id="search_form_input_homepage"
+  class="js-search-input search__input--adv"
+  type="text"
+  autocomplete="off"
+  name="q"
+  tabindex="1"
+  value=""
+  autocapitalize="off"
+  autocorrect="off">
 ```
 
 Notice that there is a `name` attribute set to "q".
@@ -520,7 +528,7 @@ That means its query needs to embed the search phrase!
 Thus, it is written as a static method that takes in the phrase.
 The XPath will return all elements under the "links" div that contain the text of the phrase.
 
-Remember, we should always try to use the simplest locator that uniquely finds the target elements.
+We should always try to use the simplest locator that uniquely finds the target elements.
 IDs, names, and class names are the easiest,
 but sometimes, we must use CSS selectors and XPaths.
 To learn more about writing good locators,
