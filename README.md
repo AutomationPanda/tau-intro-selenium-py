@@ -72,7 +72,8 @@ If you get stuck, you can always check the example code.
 * `example/4-locators`
 * `example/5-webdriver-calls`
 * `example/6-browser-config`
-* `example/7-parallel-testing`
+* `example/7-race-conditions`
+* `example/8-parallel-testing`
 * `example/develop` (main development branch for the examples)
 
 ## Tutorial Instructions
@@ -750,9 +751,36 @@ Make sure pytest doesn't report any failures when it completes.
 
 ### Part 6: Configuring Multiple Browsers
 
+Our test currently runs on Chrome,
+but it should be able to run on other browsers, too.
+Any Web UI test should be configurable to run on any applicable browser.
+Let's run it on Headless Chrome and Firefox!
+
+Browser choice should be treated as a configuration parameter.
+It should not be hard-coded into automation code.
+It should also not be written as pytest parameters.
+One test session should use one browser.
+If another browser needs to be tested, then launch another test session.
+This design keeps test code and test executions simpler.
+
+Create a new file named `config.json` in the project's root directory.
+JSON files are very easy to use in Python.
+The `json` module is part of the standard library,
+and JSON files can be parsed into dictionaries with one line.
+Add the following lines:
+
+```json
+{
+  "browser": "Chrome",
+  "implicit_wait": 10
+}
+```
+
+### Part 7: Handling Race Conditions
+
 **TBD**
 
-### Part 7: Parallel Testing
+### Part 8: Running Tests in Parallel
 
 **TBD**
 
