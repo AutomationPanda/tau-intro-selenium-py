@@ -776,6 +776,75 @@ Add the following lines:
 }
 ```
 
+Notice how these inputs correspond to values in the `browser` fixture.
+Then, add a new fixture to `tests/conftest.py`:
+
+```python
+import json
+
+@pytest.fixture
+def config(scope='session'):
+
+  # Read the file
+  with open('config.json') as config_file:
+    config = json.load(config_file)
+  
+  # Assert values are acceptable
+  assert config['browser'] in ['Firefox', 'Chrome', 'Headless Chrome']
+  assert isinstance(config['implicit_wait'], int)
+  assert config['implicit_wait'] > 0
+
+  # Return config so it can be used
+  return config
+```
+
+This fixture reads the `config.json` file.
+It also validates the inputs so that tests won't run if the inputs are bad.
+The fixture's *scope* is set to "session" so that the fixture is called only one time for all tests.
+There is no need to read it repeatedly for every test.
+
+Update the `browser` fixture to use these inputs:
+
+```python
+@pytest.fixture
+def browser(config):
+
+  # Initialize the WebDriver instance
+  if config['browser'] == 'Firefox':
+    b = selenium.webdriver.Firefox()
+  elif config['browser'] == 'Chrome':
+    b = selenium.webdriver.Chrome()
+  else:
+    opts = selenium.webdriver.ChromeOptions()
+    opts.add_argument('headless')
+    b = selenium.webdriver.Chrome(options=opts)
+
+  # Make its calls wait up to 10 seconds for elements to appear
+  b.implicitly_wait(config['implicit_wait'])
+
+  # Return the WebDriver instance for the setup
+  yield b
+
+  # Quit the WebDriver instance for the cleanup
+  b.quit()
+```
+
+Fixtures can call fixtures.
+Here, `browser` calls `config` and then uses its parts to set the browser and implicit wait time.
+Notice that Headless Chrome just uses the Chrome WebDriver with extra arguments.
+
+Nothing else needs to be updated in order to change the browser.
+Run the test using `pipenv run python -m pytest` with Chrome to verify no harm was done.
+You should see the test run successfully.
+
+Then, change the config's *browser* to "Headless Chrome" and rerun the test.
+You won't see the browser window appear, but the test should still pass.
+Why? "Headless" mode won't render pages visibly.
+It's great for automated testing because it's slightly more efficient than "regular" Chrome.
+
+Finally, try "Firefox". Does it work? Warning: it may or may not! Oh no!
+Don't panic if it doesn't work. We'll fix it in the next part.
+
 ### Part 7: Handling Race Conditions
 
 **TBD**
