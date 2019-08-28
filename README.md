@@ -847,7 +847,96 @@ Don't panic if it doesn't work. We'll fix it in the next part.
 
 ### Part 7: Handling Race Conditions
 
-**TBD**
+When running the search test using Firefox, you might hit the following failure:
+
+```
+      # Then the search result title contains "panda"
+>     assert PHRASE in result_page.title()
+E     AssertionError: assert 'panda' in 'DuckDuckGo — Privacy, simplified.'
+```
+
+Or, the test might pass.
+Why would the test fail on Firefox if it passed for Chrome?
+And why is there a chance that it *might* fail or *might* pass?
+Let's revisit the test case steps:
+
+```gherkin
+Scenario: Basic DuckDuckGo Search
+    Given the DuckDuckGo home page is displayed
+    When the user searches for “panda”
+    Then the search result title contains “panda”
+    And the search result query is “panda”
+    And the search result links pertain to “panda”
+```
+
+Step 2 performs the search.
+Then, step 3 checks the title of the page.
+Unfortunately, step 3 has a *race condition*.
+Remember, the browser and the automation are two separate processes.
+When the automation triggers the search, the browser will load the new page and title.
+At the same time, the automation will continue to execute the test.
+If the automation executes the assertion *before* the new page title loads,
+then the assertion will fail.
+Chrome was fast enough to avoid the race condition,
+but Firefox was slow enough to trigger it.
+
+Race conditions are the bane of Web UI testing.
+Automation must always wait for page components to be ready before interacting with them.
+[Implicit waits](https://selenium-python.readthedocs.io/waits.html#implicit-waits)
+work well for Web elements,
+but they don't work for browser attributes like page title.
+They are best for small projects.
+[Explicit waits](https://selenium-python.readthedocs.io/waits.html#explicit-waits)
+are more customizable, but they require more code.
+They are typically the better option for large projects that need different times and conditions.
+As a best practice, automation should use only one type of waiting.
+Mixing implicit and explicit waits can have unexpected consequences.
+
+Thankfully, there's a shortcut we can use to fix `test_basic_duckduckgo_search`.
+The other two assertions use implicit waits for other elements on the page.
+By the time those elements are loaded, the title would also be loaded.
+Therefore, we can move step 3 to the end of the scenario to be the last thing we check.
+
+The updated code for `tests/test_search.py` should be:
+
+```python
+"""
+These tests cover DuckDuckGo searches.
+"""
+
+from pages.result import DuckDuckGoResultPage
+from pages.search import DuckDuckGoSearchPage
+
+
+def test_basic_duckduckgo_search(browser):
+  search_page = DuckDuckGoSearchPage(browser)
+  result_page = DuckDuckGoResultPage(browser)
+  PHRASE = "panda"
+  
+  # Given the DuckDuckGo home page is displayed
+  search_page.load()
+
+  # When the user searches for "panda"
+  search_page.search(PHRASE)
+
+  # Then the search result query is "panda"
+  assert PHRASE == result_page.search_input_value()
+  
+  # And the search result links pertain to "panda"
+  assert result_page.result_count_for_phrase(PHRASE) > 0
+
+  # And the search result title contains "panda"
+  # (Putting this assertion last guarantees that the page title will be ready)
+  assert PHRASE in result_page.title()
+```
+
+Rerun the test using `pipenv run python -m pytest` with Firefox to verify the fix.
+Then, rerun it again with Chrome and Headless Chrome to make sure those browsers still work.
+
+Always watch out for race conditions,
+always wait for things to be ready before interacting with them,
+and always run tests multiple times across multiple configurations to identify problems.
+
 
 ### Part 8: Running Tests in Parallel
 
