@@ -881,6 +881,12 @@ Chrome was fast enough to avoid the race condition,
 but Firefox was slow enough to trigger it.
 
 Race conditions are the bane of Web UI testing.
+They can be difficult to predict when writing tests.
+They can also be difficult to identify in test results
+because they typically happen *intermittently*.
+Web UI tests gain a bad reputation for being "flaky"
+whenever race conditions are not handled appropriately.
+
 Automation must always wait for page components to be ready before interacting with them.
 [Implicit waits](https://selenium-python.readthedocs.io/waits.html#implicit-waits)
 work well for Web elements,
