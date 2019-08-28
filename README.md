@@ -943,10 +943,95 @@ Always watch out for race conditions,
 always wait for things to be ready before interacting with them,
 and always run tests multiple times across multiple configurations to identify problems.
 
-
 ### Part 8: Running Tests in Parallel
 
-**TBD**
+Unfortunately, Web UI tests are very slow compared to unit tests and service API tests.
+The best way to speed them up is to run them in parallel.
+
+First, let's parametrize `test_basic_duckduckgo_search` so that we have more than one test to run.
+Any pytest test or fixture may be [parametrized](https://docs.pytest.org/en/latest/parametrize.html).
+Update the code in `tests/test_search.py` to be:
+
+```python
+"""
+These tests cover DuckDuckGo searches.
+"""
+
+import pytest
+
+from pages.result import DuckDuckGoResultPage
+from pages.search import DuckDuckGoSearchPage
+
+
+@pytest.mark.parametrize('phrase', ['panda', 'python', 'platypus'])
+def test_basic_duckduckgo_search(browser, phrase):
+  search_page = DuckDuckGoSearchPage(browser)
+  result_page = DuckDuckGoResultPage(browser)
+  
+  # Given the DuckDuckGo home page is displayed
+  search_page.load()
+
+  # When the user searches for "panda"
+  search_page.search(phrase)
+
+  # Then the search result query is "panda"
+  assert phrase == result_page.search_input_value()
+  
+  # And the search result links pertain to "panda"
+  assert result_page.result_count_for_phrase(phrase) > 0
+
+  # And the search result title contains "panda"
+  # (Putting this assertion last guarantees that the page title will be ready)
+  assert phrase in result_page.title()
+```
+
+The test will now run three times with different search phrases.
+Rerun the tests to make sure they all work.
+You will notice that they run one at a time.
+
+Next, install [pytest-xdist](https://docs.pytest.org/en/3.0.1/xdist.html),
+the pytest plugin for parallel testing:
+
+```bash
+$ pipenv install pytest-xdist
+```
+
+Finally, run the tests using the following command:
+
+```bash
+$ pipenv run python -m pytest -n 3
+```
+
+The "-n 3" arguments tells pytest to run 3 tests in parallel.
+We have 3 example tests, and most machines can handle 3 Web UI tests simultaneously.
+When the tests run, notice how 3 browser instances open at once - one per test.
+
+Run the tests a few times using Chrome and Firefox.
+Look to see how long the tests typically take per browser.
+Also, look to see if any intermittent failures happen.
+Then, try using Headless Chrome.
+Most likely, Headless Chrome will be significantly faster and more reliable
+that regular Chrome and Firefox.
+
+Carefully tune the number of threads to optimize parallel testing.
+More threads does *not* necessarily mean faster testing.
+Too many parallel tests will choke system resources.
+
+Anecdotally, for Web UI tests, I found:
+
+* 1 test per processor minimizes total execution time without slowing down individual tests
+* 2 tests per processor minimizes total execution time further but warps individual tests
+* more than 2 tests per processor does not meaningfully shrink total execution time further
+* memory size does not have a significant impact on total execution time
+
+One machine can scale up only so far.
+For massive parallel testing, try using
+[Selenium Grid](https://github.com/SeleniumHQ/selenium/wiki/Grid2).
+There are also many companies that provide cloud-based solutions for parallel WebDriver testing.
+Check the *Resources* section below for a list.
+
+To learn more about parallel testing, read
+[To Infinity and Beyond: A Guide to Parallel Testing](https://automationpanda.com/2018/01/21/to-infinity-and-beyond-a-guide-to-parallel-testing/)
 
 Congrats! You have completed the guided part of this tutorial!
 
@@ -989,6 +1074,14 @@ All TAU courses are great, but the following ones compliment this tutorial espec
 * [Behavior-Driven Python with pytest-bdd](https://testautomationu.applitools.com/behavior-driven-python-with-pytest-bdd/) shows how to use `pytest-bdd` to write BDD-style tests.
 * [Setting a Foundation for Successful Test Automation](https://testautomationu.applitools.com/setting-a-foundation-for-successful-test-automation/) shows how to run a testing project the right way.
 
+Many companies provide cloud-based solutions for parallel, multi-browser, multi-platform Web UI testing that works with WebDriver:
+
+* [BrowserStack](https://www.browserstack.com/)
+* [LambdaTest](https://www.lambdatest.com/)
+* [Sauce Labs](https://saucelabs.com/)
+* [SmartBear CrossBrowserTesting](https://crossbrowsertesting.com/)
+* [TestProject](https://testproject.io/)
+
 Other helpful links:
 
 * [AutomationPanda.com](https://automationpanda.com/)
@@ -997,6 +1090,7 @@ Other helpful links:
   * [Why Python is Great for Test Automation](https://automationpanda.com/2018/07/26/why-python-is-great-for-test-automation/)
   * [Web Element Locators for Test Automation](https://automationpanda.com/2019/01/15/web-element-locators-for-test-automation/)
   * [The Testing Pyramid](https://automationpanda.com/2018/08/01/the-testing-pyramid/)
+  * [To Infinity and Beyond: A Guide to Parallel Testing](https://automationpanda.com/2018/01/21/to-infinity-and-beyond-a-guide-to-parallel-testing/)
 * [Selenium with Python](https://selenium-python.readthedocs.io/)
   * [WebDriver API](https://selenium-python.readthedocs.io/api.html)
   * [Waits](https://selenium-python.readthedocs.io/waits.html)
