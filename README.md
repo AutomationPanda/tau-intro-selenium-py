@@ -1013,7 +1013,8 @@ Then, try using Headless Chrome.
 Most likely, Headless Chrome will be significantly faster and more reliable
 that regular Chrome and Firefox.
 
-Carefully tune the number of threads to optimize parallel testing.
+Whenever running tests in parallel,
+carefully tune the number of threads to minimize the total test execution time.
 More threads does *not* necessarily mean faster testing.
 Too many parallel tests will choke system resources.
 
@@ -1029,9 +1030,8 @@ For massive parallel testing, try using
 [Selenium Grid](https://github.com/SeleniumHQ/selenium/wiki/Grid2).
 There are also many companies that provide cloud-based solutions for parallel WebDriver testing.
 Check the *Resources* section below for a list.
-
-To learn more about parallel testing, read
-[To Infinity and Beyond: A Guide to Parallel Testing](https://automationpanda.com/2018/01/21/to-infinity-and-beyond-a-guide-to-parallel-testing/)
+Also, to learn more about parallel testing in general, read
+[To Infinity and Beyond: A Guide to Parallel Testing](https://automationpanda.com/2018/01/21/to-infinity-and-beyond-a-guide-to-parallel-testing/).
 
 Congrats! You have completed the guided part of this tutorial!
 
@@ -1074,7 +1074,7 @@ All TAU courses are great, but the following ones compliment this tutorial espec
 * [Behavior-Driven Python with pytest-bdd](https://testautomationu.applitools.com/behavior-driven-python-with-pytest-bdd/) shows how to use `pytest-bdd` to write BDD-style tests.
 * [Setting a Foundation for Successful Test Automation](https://testautomationu.applitools.com/setting-a-foundation-for-successful-test-automation/) shows how to run a testing project the right way.
 
-Many companies provide cloud-based solutions for parallel, multi-browser, multi-platform Web UI testing that works with WebDriver:
+Many companies provide cloud-based solutions for parallel, multi-browser, multi-platform Web UI testing that work with WebDriver:
 
 * [BrowserStack](https://www.browserstack.com/)
 * [LambdaTest](https://www.lambdatest.com/)
