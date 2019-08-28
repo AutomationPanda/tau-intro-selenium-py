@@ -80,7 +80,7 @@ If you get stuck, you can always check the example code.
 
 ### Part 1: Writing Our First Test
 
-*Time Estimate: 4 Minutes*
+*Time Estimate: 5 Minutes*
 
 We should always write test *cases* before writing any test *code*.
 Test cases are procedures that exercise behavior to verify goodness and identify badness.
@@ -144,7 +144,7 @@ Finally, commit your code change. Part 1 is complete!
 
 ### Part 2: Setting Up Selenium WebDriver
 
-*Time Estimate: 8 Minutes*
+*Time Estimate: 5 Minutes*
 
 [Selenium WebDriver](https://www.seleniumhq.org/projects/webdriver/)
 is a tool for automating Web UI interactions with live browsers.
@@ -224,7 +224,7 @@ Part 2 is now complete!
 
 ### Part 3: Defining Page Objects
 
-*Time Estimate: 8 Minutes*
+*Time Estimate: 10 Minutes*
 
 A **page object** is an object representing a Web page or component.
 They have *locators* for finding elements,
@@ -355,7 +355,7 @@ Then, commit your latest code changes. Part 3 is now complete!
 
 ### Part 4: Finding Locators
 
-*Time Estimate: 8 Minutes*
+*Time Estimate: 15 Minutes*
 
 Every "thing" on a Web page is a Web *element*:
 buttons, labels, dropdowns, input fields, etc.
@@ -543,7 +543,7 @@ Then, commit your latest code changes. Part 4 is now complete!
 
 ### Part 5: Making WebDriver Calls
 
-*Time Estimate: 16 Minutes*
+*Time Estimate: 15 Minutes*
 
 Now we can implement all the page object methods using WebDriver calls.
 The [WebDriver API for Python](https://selenium-python.readthedocs.io/api.html)
@@ -751,6 +751,8 @@ Make sure pytest doesn't report any failures when it completes.
 
 ### Part 6: Configuring Multiple Browsers
 
+*Time Estimate: 15 Minutes*
+
 Our test currently runs on Chrome,
 but it should be able to run on other browsers, too.
 Any Web UI test should be configurable to run on any applicable browser.
@@ -846,6 +848,8 @@ Finally, try "Firefox". Does it work? Warning: it may or may not! Oh no!
 Don't panic if it doesn't work. We'll fix it in the next part.
 
 ### Part 7: Handling Race Conditions
+
+*Time Estimate: 15 Minutes*
 
 When running the search test using Firefox, you might hit the following failure:
 
@@ -944,6 +948,8 @@ always wait for things to be ready before interacting with them,
 and always run tests multiple times across multiple configurations to identify problems.
 
 ### Part 8: Running Tests in Parallel
+
+*Time Estimate: 15 Minutes*
 
 Unfortunately, Web UI tests are very slow compared to unit tests and service API tests.
 The best way to speed them up is to run them in parallel.
