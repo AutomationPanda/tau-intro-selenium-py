@@ -27,7 +27,7 @@ For Web UI testing, you will need to install the latest versions of
 and [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/).
 You can use other browsers with Selenium WebDriver,
 but the tutorial will use Chrome and Firefox.
-Make sure your brower versions are up-to-date.
+Make sure your browser versions are up-to-date.
 
 You will also need the latest versions of the WebDriver executables for these browsers:
 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) for Chrome
@@ -249,7 +249,7 @@ We can write stubs for page object classes as we figure out the interactions.
 Create a new Python package named `pages`.
 To do this create a directory under the root directory named `pages`.
 Then, put a blank file in it named `__init__.py`.
-The `pages` directory shoult *not* be under the `tests` directory.
+The `pages` directory should *not* be under the `tests` directory.
 Why? When using pytest, the `tests` folder should *not* be a package.
 
 Create a new module named `pages/search.py` and add the following code
@@ -745,7 +745,7 @@ def test_basic_duckduckgo_search(browser):
 Rerun the test using `pipenv run python -m pytest`.
 Now, finally, it should run to completion and pass!
 The test will take a few second to run because it must wait for page loads.
-Chrome should pop up and automatically go though all test steps.
+Chrome should pop up and automatically go through all test steps.
 Try not to interfere with the browser as the test runs.
 Make sure pytest doesn't report any failures when it completes.
 
