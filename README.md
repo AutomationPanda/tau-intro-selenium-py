@@ -62,7 +62,7 @@ Use Ctrl-C to kill them.
 2. Run `cd djangocon-2019-web-ui-testing` to enter the project.
 3. Run `pipenv install` to install the dependencies.
 4. Run `pipenv run python -m pytest` to verify that the framework can run tests.
-5. Create a branch for your code changes. (See *Branching* below.)
+5. Create a branch for your code changes. (See *Repository Branching* below.)
 
 ## Repository Branching
 
