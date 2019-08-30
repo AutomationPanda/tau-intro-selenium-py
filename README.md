@@ -143,7 +143,7 @@ def test_basic_duckduckgo_search():
 Adding comments to stub each step may seem trivial,
 but it's a good first step when writing new test cases.
 We can simply add code at each TODO line as we automate.
-Once the test is completed, we will remove the exception at the end.
+Once we finish writing the test's code, we will remove the exception at the end.
 Also, note that pytest expects all test functions to begin with `test_`.
 
 To avoid confusion when we run tests, let's remove the old placeholder test.
@@ -168,7 +168,7 @@ Run `pipenv install selenium` to install it for our project.
 
 Every test should use its own WebDriver instance.
 This keeps things simple and safe.
-The best way to set up the WebDriver instance is using a
+The best way to set up the WebDriver instance is to use a
 [pytest fixture](https://docs.pytest.org/en/latest/fixture.html).
 Fixtures are basically setup and cleanup functions.
 As a best practice, they should be placed in a `conftest.py` module so they can be used by any test.
@@ -200,12 +200,12 @@ def browser():
   b.quit()
 ```
 
-Our fixture uses Chrome as the browser.
-Other browser types could be used.
+The `browser` fixture uses Chrome.
+Other browser types could be used instead.
 Real-world projects often read browser choice from a config file here.
 
 The implicit wait will make sure WebDriver calls wait for elements to appear before sending calls to them.
-10 seconds should be reasonable for our test project's needs.
+10 seconds should be reasonable for this test project's needs.
 For larger projects, however, setting explicit waits is a better practice
 because different calls need different wait times.
 Read more about implicit versus explicit waits [here](https://selenium-python.readthedocs.io/waits.html).
@@ -213,7 +213,7 @@ Read more about implicit versus explicit waits [here](https://selenium-python.re
 The `yield` statement makes the `browser` fixture a generator.
 The first iteration will do the "setup" steps,
 while the second iteration will do the "cleanup" steps.
-Always make sure to *quit* the WebDriver instance as part of cleanup,
+Each test must make sure to *quit* the WebDriver instance as part of cleanup,
 or else zombie processes might lock system resources!
 
 Now, update `test_basic_duckduckgo_search` in `tests/test_search.py` to call the new fixture:
@@ -252,7 +252,7 @@ There are two pages under test, each with a few interactions:
    * Load the page
    * Search a phrase
 2. The DuckDuckGo results page
-   * Get the results
+   * Get the result link titles
    * Get the search query
    * Get the title
 
@@ -304,7 +304,7 @@ class DuckDuckGoResultPage:
   def __init__(self, browser):
     self.browser = browser
 
-  def result_count_for_phrase(self, phrase):
+  def result_link_titles(self):
     # TODO
     return 0
   
@@ -350,7 +350,8 @@ def test_basic_duckduckgo_search(browser):
   assert PHRASE == result_page.search_input_value()
   
   # And the search result links pertain to "panda"
-  assert result_page.result_count_for_phrase(PHRASE) > 0
+  for title in result_page.result_link_titles():
+    assert phrase.lower() in title.lower()
 
   # TODO: Remove this exception once the test is complete
   raise Exception("Incomplete Test")
@@ -402,10 +403,10 @@ For example, if the page has the following element:
 <button id="django_ok">OK</button>
 ```
 
-Then, an ID locator for "django_ok" could be used to get this element.
+Then, a page object could use an ID locator for "django_ok" to get this element.
 
 Locators are not element objects themselves but instead point to elements. 
-The WebDriver instance will use locators to fetch and construct element objects.
+The WebDriver instance uses locators to fetch and construct element objects.
 Why are locators and elements separate concerns?
 Elements on a page are always changing:
 they may take time to load, or they may change with user interaction.
@@ -417,7 +418,7 @@ For our test, we need locators for three elements:
 
 1. The search input on the DuckDuckGo search page
 2. The search input on the DuckDuckGo results page
-3. The search phrase results on the DuckDuckGo results page
+3. The result links on the DuckDuckGo results page
 
 (Note: The page title is not a Web element. It can be fetched as a `browser` property.)
 
@@ -496,7 +497,7 @@ class DuckDuckGoSearchPage:
 ```
 
 Let's write locators for the `DuckDuckGoResultPage` next.
-Perform a search, inspect the page, and try to come up with locators on your own!
+Perform a search, inspect the page, and try to come up with locators on your own.
 
 Below is the code for `pages/result.py` with locators:
 
@@ -511,17 +512,13 @@ from selenium.webdriver.common.by import By
 
 class DuckDuckGoResultPage:
   
+  RESULT_LINKS = (By.CSS_SELECTOR, 'a.result__a')
   SEARCH_INPUT = (By.ID, 'search_form_input')
-
-  @staticmethod
-  def PHRASE_RESULTS(phrase):
-    xpath = f"//div[@id='links']//*[contains(text(), '{phrase}')]"
-    return (By.XPATH, xpath)
   
   def __init__(self, browser):
     self.browser = browser
 
-  def result_count_for_phrase(self, phrase):
+  def result_link_titles(self):
     # TODO
     return 0
   
@@ -535,13 +532,13 @@ class DuckDuckGoResultPage:
 ```
 
 Thankfully, the search input element on the result page
-uses the same locator as the one on the search page.
-The locator for the search phrase results is a bit trickier, though.
+is similar to the one on the search page.
+
+The locator for the result links is a bit trickier, though.
 It must find all result elements that contain the search phrase in their display texts.
 This locator will return a list of elements, not just one.
-It is written as a static method so that it can take in the phrase dynamically.
-The XPath will return all elements under the "links" div that contain the text of the phrase.
-The method returns a tuple so that it can be used like other locators.
+The result links are all "a" hyperlink elements with a class named "result__a".
+We can use a CSS selector for its query.
 
 We should always try to use the simplest locator that uniquely finds the target elements.
 IDs, names, and class names are the easiest,
@@ -550,7 +547,7 @@ To learn more about writing good locators,
 take the [Web Element Locator Strategies](https://testautomationu.applitools.com/web-element-locator-strategies/) course
 from [Test Automation University](https://testautomationu.applitools.com/).
 
-Although our test will still fail,
+Although the test will still fail,
 rerun it using `pipenv run python -m pytest` to make sure our changes did no harm.
 Then, commit your latest code changes. Part 4 is now complete!
 
@@ -659,24 +656,26 @@ The "value" attribute contains the text a user types into an "input" element.
 ```python
 def search_input_value(self):
   search_input = self.browser.find_element(*self.SEARCH_INPUT)
-  return search_input.get_attribute('value')
+  value = search_input.get_attribute('value')
+  return value
 ```
 
-The `result_count_for_phrase` method is a bit more complex.
+The `result_link_titles` method is a bit more complex.
 The test must verify that the result page displays links relating to the search phrase.
-This method should find all result links that contain the search phrase in their display texts.
-Then, it should return the count.
-Remember, the test asserts that the count is greater than zero.
-This assertion may seem weak because it could allow some results to be unrelated to the phrase,
-but it is good enough for the nature of a basic search test.
-(A more rigorous test could and should more carefully cover search result goodness.)
+This method should find all result links on the page.
+Then, it should get the titles for those result links.
+Remember, the test asserts that the search phrase is in each title.
+This assertion may seem too stringent because it could fail the test for possibly valid links,
+but it should be good enough for simple search terms.
+(Again, remember, the test is merely a basic search test.)
 
-The `result_count_for_phrase` method should look like this:
+The `result_link_titles` method should look like this:
 
 ```python
-def result_count_for_phrase(self, phrase):
-  results = self.browser.find_elements(*self.PHRASE_RESULTS(phrase))
-  return len(results)
+def result_link_titles(self):
+  links = self.browser.find_elements(*self.RESULT_LINKS)
+  titles = [link.text for link in links]
+  return titles
 ```
 
 Notice that it uses `find_elements` (plural) to get a list of matching elements.
@@ -696,12 +695,8 @@ class DuckDuckGoResultPage:
   
   # Locators
 
+  RESULT_LINKS = (By.CSS_SELECTOR, 'a.result__a')
   SEARCH_INPUT = (By.ID, 'search_form_input')
-
-  @staticmethod
-  def PHRASE_RESULTS(phrase):
-    xpath = f"//div[@id='links']//*[contains(text(), '{phrase}')]"
-    return (By.XPATH, xpath)
 
   # Initializer
 
@@ -710,13 +705,15 @@ class DuckDuckGoResultPage:
 
   # Interaction Methods
 
-  def result_count_for_phrase(self, phrase):
-    results = self.browser.find_elements(*self.PHRASE_RESULTS(phrase))
-    return len(results)
+  def result_link_titles(self):
+    links = self.browser.find_elements(*self.RESULT_LINKS)
+    titles = [link.text for link in links]
+    return titles
   
   def search_input_value(self):
     search_input = self.browser.find_element(*self.SEARCH_INPUT)
-    return search_input.get_attribute('value')
+    value = search_input.get_attribute('value')
+    return value
 
   def title(self):
     return self.browser.title
@@ -752,7 +749,8 @@ def test_basic_duckduckgo_search(browser):
   assert PHRASE == result_page.search_input_value()
   
   # And the search result links pertain to "panda"
-  assert result_page.result_count_for_phrase(PHRASE) > 0
+  for title in result_page.result_link_titles():
+    assert phrase.lower() in title.lower()
 ```
 
 Rerun the test using `pipenv run python -m pytest`.
@@ -829,12 +827,14 @@ def browser(config):
     b = selenium.webdriver.Firefox()
   elif config['browser'] == 'Chrome':
     b = selenium.webdriver.Chrome()
-  else:
+  elif config['browser'] == 'Headless Chrome':
     opts = selenium.webdriver.ChromeOptions()
     opts.add_argument('headless')
     b = selenium.webdriver.Chrome(options=opts)
+  else:
+    raise Exception(f'Browser "{config["browser"]}" is not supported')
 
-  # Make its calls wait up for elements to appear
+  # Make its calls wait for elements to appear
   b.implicitly_wait(config['implicit_wait'])
 
   # Return the WebDriver instance for the setup
@@ -946,7 +946,8 @@ def test_basic_duckduckgo_search(browser):
   assert PHRASE == result_page.search_input_value()
   
   # And the search result links pertain to "panda"
-  assert result_page.result_count_for_phrase(PHRASE) > 0
+  for title in result_page.result_link_titles():
+    assert phrase.lower() in title.lower()
 
   # And the search result title contains "panda"
   # (Putting this assertion last guarantees that the page title will be ready)
@@ -997,7 +998,8 @@ def test_basic_duckduckgo_search(browser, phrase):
   assert phrase == result_page.search_input_value()
   
   # And the search result links pertain to "panda"
-  assert result_page.result_count_for_phrase(phrase) > 0
+  for title in result_page.result_link_titles():
+    assert phrase.lower() in title.lower()
 
   # And the search result title contains "panda"
   # (Putting this assertion last guarantees that the page title will be ready)
@@ -1047,9 +1049,10 @@ Anecdotally, for Web UI tests:
 One machine can scale up only so far.
 For massive parallel testing, try using
 [Selenium Grid](https://github.com/SeleniumHQ/selenium/wiki/Grid2).
-There are also many companies that provide cloud-based solutions for parallel WebDriver testing.
+Alternatively, many companies provide cloud-based solutions for parallel WebDriver testing.
 Check the *Resources* section below for a list.
-Also, to learn more about parallel testing in general, read
+
+To learn more about parallel testing in general, read
 [To Infinity and Beyond: A Guide to Parallel Testing](https://automationpanda.com/2018/01/21/to-infinity-and-beyond-a-guide-to-parallel-testing/).
 
 Congrats! You have completed the guided part of this tutorial!
@@ -1057,7 +1060,7 @@ Congrats! You have completed the guided part of this tutorial!
 ## Independent Exercises
 
 The guided tutorial covered one very basic search test, but DuckDuckGo has many more features.
-Write some new tests for DuckDuckGo.
+Try to write some new tests for DuckDuckGo independently.
 Here are some suggestions:
 
 * search for different phrases
