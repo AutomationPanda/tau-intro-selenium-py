@@ -1041,7 +1041,7 @@ carefully tune the number of threads to minimize the total test execution time.
 More threads does *not* necessarily mean faster testing.
 Too many parallel tests will choke system resources.
 
-Anecdotally, for Web UI tests, I found:
+Anecdotally, for Web UI tests:
 
 * 1 test per processor minimizes total execution time without slowing down individual tests
 * 2 tests per processor minimizes total execution time further but slows down individual tests
@@ -1120,6 +1120,14 @@ Other helpful links:
   * [Locating Elements](https://selenium-python.readthedocs.io/locating-elements.html)
 * [pytest.org](https://docs.pytest.org/)
 * [Selenium Grid wiki](https://github.com/SeleniumHQ/selenium/wiki/Grid2)
+
+## Special Thanks from Pandy
+
+Thank you to [DjangoCon 2019](https://2019.djangocon.us/) for inviting me to deliver this tutorial!
+
+Thank you to the following individuals who graciously reviewed this tutorial:
+
+* *TBD*
 
 ## About the Author
 
