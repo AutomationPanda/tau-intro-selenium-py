@@ -1124,8 +1124,11 @@ Other helpful links:
 
 Thank you to [DjangoCon 2019](https://2019.djangocon.us/) for inviting me to deliver this tutorial!
 
+Thank you to all the students who participated in this tutorial at DjangoCon 2019.
+
 Thank you to the following individuals who graciously reviewed this tutorial:
 
+* Michael Lynch ([@deliberatecoder](https://twitter.com/deliberatecoder))
 * *TBD*
 
 ## About the Author
