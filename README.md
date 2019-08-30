@@ -351,7 +351,7 @@ def test_basic_duckduckgo_search(browser):
   
   # And the search result links pertain to "panda"
   for title in result_page.result_link_titles():
-    assert phrase.lower() in title.lower()
+    assert PHRASE.lower() in title.lower()
 
   # TODO: Remove this exception once the test is complete
   raise Exception("Incomplete Test")
@@ -750,7 +750,7 @@ def test_basic_duckduckgo_search(browser):
   
   # And the search result links pertain to "panda"
   for title in result_page.result_link_titles():
-    assert phrase.lower() in title.lower()
+    assert PHRASE.lower() in title.lower()
 ```
 
 Rerun the test using `pipenv run python -m pytest`.
@@ -947,7 +947,7 @@ def test_basic_duckduckgo_search(browser):
   
   # And the search result links pertain to "panda"
   for title in result_page.result_link_titles():
-    assert phrase.lower() in title.lower()
+    assert PHRASE.lower() in title.lower()
 
   # And the search result title contains "panda"
   # (Putting this assertion last guarantees that the page title will be ready)
