@@ -22,28 +22,45 @@ You should also have a Python editor/IDE of your choice.
 Good choices include [PyCharm](https://www.jetbrains.com/pycharm/)
 and [Visual Studio Code](https://code.visualstudio.com/docs/languages/python).
 
+You will also need [Git](https://git-scm.com/) to copy this project code.
+If you are new to Git, [try learning the basics](https://try.github.io/).
+
 For Web UI testing, you will need to install the latest versions of
 [Google Chrome](https://www.google.com/chrome/)
 and [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/).
 You can use other browsers with Selenium WebDriver,
 but the tutorial will use Chrome and Firefox.
-Make sure your browser versions are up-to-date.
 
 You will also need the latest versions of the WebDriver executables for these browsers:
 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) for Chrome
 and [geckodriver](https://github.com/mozilla/geckodriver/releases) for Firefox.
-These WebDriver executables will act as a proxy between our test automation code and browser instances.
-Make sure their versions match the versions of the browsers, or else problems may happen.
-The WebDriver executables must also be on your [system path](https://en.wikipedia.org/wiki/PATH_(variable)).
-To verify, simply try to run them from the terminal, and then quit them.
-The test automation needs these executables to be on the system path
-so that it can launch them when tests run.
-Please ask if you need help with this configuration.
+When tests run, the WebDriver language bindings in the Python automation code
+will launch the WebDriver executable for the target browser,
+which in turn will launch the target browser itself.
+The WebDriver executable will act as a proxy between the test automation and the browser instance.
 
-You will also need [Git](https://git-scm.com/) to copy this project code.
-If you are new to Git, [try learning the basics](https://try.github.io/).
+Please use the latest versions of both the browsers and the WebDriver executables.
+Older versions might be incompatible with each other.
 
-### Setup Instructions
+ChromeDriver and geckodriver must be on your [system path](https://en.wikipedia.org/wiki/PATH_(variable)).
+If you are not sure how to add directories to the path, follow these guides:
+
+* [Setting the path on Windows](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
+* [Setting the path on macOS](https://www.cyberciti.biz/faq/appleosx-bash-unix-change-set-path-environment-variable/)
+* [Setting the path on Linux](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix)
+
+To verify correct setup, simply try to run them from the terminal:
+
+```bash
+$ ChromeDriver
+$ geckodriver
+```
+
+You may or may not see any output.
+Just verify that you can run them without errors.
+Use Ctrl-C to kill them.
+
+### Project Setup Instructions
 
 1. Clone this repository.
 2. Run `cd djangocon-2019-web-ui-testing` to enter the project.
@@ -243,9 +260,9 @@ There are two pages under test, each with a few interactions:
    * Get the search query
    * Get the title
 
-Understanding interactions with the Web app is more important than the code.
-We can write stubs for page object classes as we figure out the interactions.
-
+Let's write stubs for our page object classes.
+Each interaction should have its own method.
+Later, we can implement the interaction methods with Selenium WebDriver calls.
 Create a new Python package named `pages`.
 To do this create a directory under the root directory named `pages`.
 Then, put a blank file in it named `__init__.py`.
@@ -357,10 +374,10 @@ Then, commit your latest code changes. Part 3 is now complete!
 
 *Time Estimate: 15 Minutes*
 
-Every "thing" on a Web page is a Web *element*:
-buttons, labels, dropdowns, input fields, etc.
-Elements on the page are specified using HTML.
-Tests use page objects to interact with elements.
+An *element* is a "thing" on a Web page.
+Browsers render elements such as buttons, dropdowns, and input fields using the page's HTML code.
+Users interact directly with the page's elements.
+Tests use page objects to interact with elements like a user.
 
 Interactions typically require three steps:
 
@@ -821,7 +838,7 @@ def browser(config):
     opts.add_argument('headless')
     b = selenium.webdriver.Chrome(options=opts)
 
-  # Make its calls wait up to 10 seconds for elements to appear
+  # Make its calls wait up for elements to appear
   b.implicitly_wait(config['implicit_wait'])
 
   # Return the WebDriver instance for the setup
@@ -1027,7 +1044,7 @@ Too many parallel tests will choke system resources.
 Anecdotally, for Web UI tests, I found:
 
 * 1 test per processor minimizes total execution time without slowing down individual tests
-* 2 tests per processor minimizes total execution time further but warps individual tests
+* 2 tests per processor minimizes total execution time further but slows down individual tests
 * more than 2 tests per processor does not meaningfully shrink total execution time further
 * memory size does not have a significant impact on total execution time
 
