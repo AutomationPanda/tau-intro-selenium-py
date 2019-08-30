@@ -7,9 +7,7 @@ If you are taking the tutorial,
 then please clone this repository and follow the instructions below.
 The slide deck for the tutorial is also in this repository.
 
-## Project Setup
-
-### System Prerequisites
+## System Prerequisites
 You can complete this tutorial using any OS: Windows, macOS, Linux, etc.
 
 This tutorial requires Python 3.6 or higher.
@@ -31,12 +29,10 @@ and [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/).
 You can use other browsers with Selenium WebDriver,
 but the tutorial will use Chrome and Firefox.
 
-You will also need the latest versions of the WebDriver executables for these browsers:
+You will also need to install the latest versions of the WebDriver executables for these browsers:
 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) for Chrome
 and [geckodriver](https://github.com/mozilla/geckodriver/releases) for Firefox.
-When tests run, the WebDriver language bindings in the Python automation code
-will launch the WebDriver executable for the target browser,
-which in turn will launch the target browser itself.
+Each test case will launch the WebDriver executable for its target browser.
 The WebDriver executable will act as a proxy between the test automation and the browser instance.
 
 Please use the latest versions of both the browsers and the WebDriver executables.
@@ -60,7 +56,7 @@ You may or may not see any output.
 Just verify that you can run them without errors.
 Use Ctrl-C to kill them.
 
-### Project Setup Instructions
+## Project Setup
 
 1. Clone this repository.
 2. Run `cd djangocon-2019-web-ui-testing` to enter the project.
@@ -68,7 +64,7 @@ Use Ctrl-C to kill them.
 4. Run `pipenv run python -m pytest` to verify that the framework can run tests.
 5. Create a branch for your code changes. (See *Branching* below.)
 
-### Branching
+## Repository Branching
 
 The `master` branch contains the code for the tutorial's starting point.
 The project is basically empty in the `master` branch.
