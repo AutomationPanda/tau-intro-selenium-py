@@ -1129,6 +1129,7 @@ Thank you to all the students who participated in this tutorial at DjangoCon 201
 Thank you to the following individuals who graciously reviewed this tutorial:
 
 * Michael Lynch ([@deliberatecoder](https://twitter.com/deliberatecoder))
+* [@satyanktiwari](https://twitter.com/satyanktiwari)
 * *TBD*
 
 ## About the Author
