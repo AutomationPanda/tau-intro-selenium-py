@@ -10,7 +10,7 @@ The slide deck for the tutorial is also in this repository.
 ## System Prerequisites
 You can complete this tutorial using any OS: Windows, macOS, Linux, etc.
 
-This tutorial requires Python 3.6 or higher.
+This tutorial requires Python 3.7 or higher.
 You can download the latest Python version from [Python.org](https://www.python.org/downloads/).
 
 This tutorial also requires [pipenv](https://docs.pipenv.org/).
@@ -520,7 +520,7 @@ class DuckDuckGoResultPage:
 
   def result_link_titles(self):
     # TODO
-    return 0
+    return []
   
   def search_input_value(self):
     # TODO
@@ -1129,8 +1129,8 @@ Thank you to all the students who participated in this tutorial at DjangoCon 201
 Thank you to the following individuals who graciously reviewed this tutorial:
 
 * Michael Lynch ([@deliberatecoder](https://twitter.com/deliberatecoder))
-* [@satyanktiwari](https://twitter.com/satyanktiwari)
-* *TBD*
+* Satyank Tiwari ([@satyanktiwari](https://twitter.com/satyanktiwari))
+* [@testadeel](https://twitter.com/testadeel)
 
 ## About the Author
 
