@@ -306,7 +306,7 @@ class DuckDuckGoResultPage:
 
   def result_link_titles(self):
     # TODO
-    return 0
+    return []
   
   def search_input_value(self):
     # TODO
