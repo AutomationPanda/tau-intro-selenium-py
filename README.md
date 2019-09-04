@@ -95,6 +95,8 @@ If you get stuck, you can always check the example code.
 
 *Time Estimate: 5 Minutes*
 
+*Example Branch: example/1-first-test*
+
 We should always write test *cases* before writing any test *code*.
 Test cases are procedures that exercise behavior to verify goodness and identify badness.
 Test code simply automates test cases.
@@ -158,6 +160,8 @@ Finally, commit your code change. Part 1 is complete!
 ### Part 2: Setting Up Selenium WebDriver
 
 *Time Estimate: 5 Minutes*
+
+*Example Branch: example/2-webdriver-setup*
 
 [Selenium WebDriver](https://www.seleniumhq.org/projects/webdriver/)
 is a tool for automating Web UI interactions with live browsers.
@@ -238,6 +242,8 @@ Part 2 is now complete!
 ### Part 3: Defining Page Objects
 
 *Time Estimate: 10 Minutes*
+
+*Example Branch: example/3-page-objects*
 
 A **page object** is an object representing a Web page or component.
 They have *locators* for finding elements,
@@ -370,6 +376,8 @@ Then, commit your latest code changes. Part 3 is now complete!
 ### Part 4: Finding Locators
 
 *Time Estimate: 15 Minutes*
+
+*Example Branch: example/4-locators*
 
 An *element* is a "thing" on a Web page.
 Browsers render elements such as buttons, dropdowns, and input fields using the page's HTML code.
@@ -554,6 +562,8 @@ Then, commit your latest code changes. Part 4 is now complete!
 ### Part 5: Making WebDriver Calls
 
 *Time Estimate: 15 Minutes*
+
+*Example Branch: example/5-webdriver-calls*
 
 Now we can implement all the page object methods using WebDriver calls.
 The [WebDriver API for Python](https://selenium-python.readthedocs.io/api.html)
@@ -764,6 +774,8 @@ Make sure pytest doesn't report any failures when it completes.
 
 *Time Estimate: 15 Minutes*
 
+*Example Branch: example/6-browser-config*
+
 Our test currently runs on Chrome,
 but it should be able to run on other browsers, too.
 Any Web UI test should be configurable to run on any applicable browser.
@@ -863,6 +875,8 @@ Don't panic if it doesn't work. We'll fix it in the next part.
 ### Part 7: Handling Race Conditions
 
 *Time Estimate: 15 Minutes*
+
+*Example Branch: example/7-race-conditions*
 
 When running the search test using Firefox, you might hit the following failure:
 
@@ -964,6 +978,8 @@ and always run tests multiple times across multiple configurations to identify p
 ### Part 8: Running Tests in Parallel
 
 *Time Estimate: 15 Minutes*
+
+*Example Branch: example/8-parallel-testing*
 
 Unfortunately, Web UI tests are very slow compared to unit tests and service API tests.
 The best way to speed them up is to run them in parallel.
