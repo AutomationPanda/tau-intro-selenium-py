@@ -10,7 +10,7 @@ The slide deck for the tutorial is also in this repository.
 ## System Prerequisites
 You can complete this tutorial using any OS: Windows, macOS, Linux, etc.
 
-This tutorial requires Python 3.6 or higher.
+This tutorial requires Python 3.7 or higher.
 You can download the latest Python version from [Python.org](https://www.python.org/downloads/).
 
 This tutorial also requires [pipenv](https://docs.pipenv.org/).
@@ -95,6 +95,8 @@ If you get stuck, you can always check the example code.
 
 *Time Estimate: 5 Minutes*
 
+*Example Branch: example/1-first-test*
+
 We should always write test *cases* before writing any test *code*.
 Test cases are procedures that exercise behavior to verify goodness and identify badness.
 Test code simply automates test cases.
@@ -158,6 +160,8 @@ Finally, commit your code change. Part 1 is complete!
 ### Part 2: Setting Up Selenium WebDriver
 
 *Time Estimate: 5 Minutes*
+
+*Example Branch: example/2-webdriver-setup*
 
 [Selenium WebDriver](https://www.seleniumhq.org/projects/webdriver/)
 is a tool for automating Web UI interactions with live browsers.
@@ -239,6 +243,8 @@ Part 2 is now complete!
 
 *Time Estimate: 10 Minutes*
 
+*Example Branch: example/3-page-objects*
+
 A **page object** is an object representing a Web page or component.
 They have *locators* for finding elements,
 as well as *interaction methods* that interact with the page under test.
@@ -306,7 +312,7 @@ class DuckDuckGoResultPage:
 
   def result_link_titles(self):
     # TODO
-    return 0
+    return []
   
   def search_input_value(self):
     # TODO
@@ -367,9 +373,11 @@ Rerun the test using `pipenv run python -m pytest`.
 The test should fail again, but this time, it should fail on one of the assertions.
 Then, commit your latest code changes. Part 3 is now complete!
 
-### Part 4: Finding Locators
+### Part 4: Finding Locators for Elements
 
 *Time Estimate: 15 Minutes*
+
+*Example Branch: example/4-locators*
 
 An *element* is a "thing" on a Web page.
 Browsers render elements such as buttons, dropdowns, and input fields using the page's HTML code.
@@ -520,7 +528,7 @@ class DuckDuckGoResultPage:
 
   def result_link_titles(self):
     # TODO
-    return 0
+    return []
   
   def search_input_value(self):
     # TODO
@@ -554,6 +562,8 @@ Then, commit your latest code changes. Part 4 is now complete!
 ### Part 5: Making WebDriver Calls
 
 *Time Estimate: 15 Minutes*
+
+*Example Branch: example/5-webdriver-calls*
 
 Now we can implement all the page object methods using WebDriver calls.
 The [WebDriver API for Python](https://selenium-python.readthedocs.io/api.html)
@@ -764,12 +774,16 @@ Make sure pytest doesn't report any failures when it completes.
 
 *Time Estimate: 15 Minutes*
 
+*Example Branch: example/6-browser-config*
+
 Our test currently runs on Chrome,
 but it should be able to run on other browsers, too.
 Any Web UI test should be configurable to run on any applicable browser.
 Let's run it on Headless Chrome and Firefox!
 
-Browser choice should be treated as a configuration parameter.
+Browser choice is an aspect of testing.
+In theory, every test should run on every supported browser.
+Thus, browser choice should be treated as an input for test automation.
 It should not be hard-coded into automation code.
 It should also not be written as pytest parameters.
 One test session should use one browser.
@@ -863,6 +877,8 @@ Don't panic if it doesn't work. We'll fix it in the next part.
 ### Part 7: Handling Race Conditions
 
 *Time Estimate: 15 Minutes*
+
+*Example Branch: example/7-race-conditions*
 
 When running the search test using Firefox, you might hit the following failure:
 
@@ -965,6 +981,8 @@ and always run tests multiple times across multiple configurations to identify p
 
 *Time Estimate: 15 Minutes*
 
+*Example Branch: example/8-parallel-testing*
+
 Unfortunately, Web UI tests are very slow compared to unit tests and service API tests.
 The best way to speed them up is to run them in parallel.
 
@@ -983,7 +1001,7 @@ from pages.result import DuckDuckGoResultPage
 from pages.search import DuckDuckGoSearchPage
 
 
-@pytest.mark.parametrize('phrase', ['panda', 'python', 'platypus'])
+@pytest.mark.parametrize('phrase', ['panda', 'python', 'polar bear'])
 def test_basic_duckduckgo_search(browser, phrase):
   search_page = DuckDuckGoSearchPage(browser)
   result_page = DuckDuckGoResultPage(browser)
@@ -991,17 +1009,17 @@ def test_basic_duckduckgo_search(browser, phrase):
   # Given the DuckDuckGo home page is displayed
   search_page.load()
 
-  # When the user searches for "panda"
+  # When the user searches for the phrase
   search_page.search(phrase)
 
-  # Then the search result query is "panda"
+  # Then the search result query is the phrase
   assert phrase == result_page.search_input_value()
   
-  # And the search result links pertain to "panda"
+  # And the search result links pertain to the phrase
   for title in result_page.result_link_titles():
     assert phrase.lower() in title.lower()
 
-  # And the search result title contains "panda"
+  # And the search result title contains the phrase
   # (Putting this assertion last guarantees that the page title will be ready)
   assert phrase in result_page.title()
 ```
@@ -1033,6 +1051,13 @@ Also, look to see if any intermittent failures happen.
 Then, try using Headless Chrome.
 Most likely, Headless Chrome will be significantly faster and more reliable
 that regular Chrome and Firefox.
+
+As a warning, parallel testing can be dangerous.
+Make sure that tests avoid *collisions*.
+Collisions happen when tests simultaneously access shared state.
+For example, one test could try to access a database record while another test deletes it.
+Thankfully, our DuckDuckGo search tests do not have any collisions
+because they make independent searches in separate browser instances.
 
 Whenever running tests in parallel,
 carefully tune the number of threads to minimize the total test execution time.
@@ -1129,8 +1154,9 @@ Thank you to all the students who participated in this tutorial at DjangoCon 201
 Thank you to the following individuals who graciously reviewed this tutorial:
 
 * Michael Lynch ([@deliberatecoder](https://twitter.com/deliberatecoder))
-* [@satyanktiwari](https://twitter.com/satyanktiwari)
-* *TBD*
+* Satyank Tiwari ([@satyanktiwari](https://twitter.com/satyanktiwari))
+* Adeel Mansoor ([@testadeel](https://twitter.com/testadeel))
+* Rick Clymer ([@clymerrm](https://twitter.com/clymerrm))
 
 ## About the Author
 
