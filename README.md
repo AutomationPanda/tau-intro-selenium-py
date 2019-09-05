@@ -1147,6 +1147,7 @@ Thank you to the following individuals who graciously reviewed this tutorial:
 * Michael Lynch ([@deliberatecoder](https://twitter.com/deliberatecoder))
 * Satyank Tiwari ([@satyanktiwari](https://twitter.com/satyanktiwari))
 * Adeel Mansoor ([@testadeel](https://twitter.com/testadeel))
+* Rick Clymer ([@clymerrm](https://twitter.com/clymerrm))
 
 ## About the Author
 
