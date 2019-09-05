@@ -26,6 +26,3 @@ def test_basic_duckduckgo_search(browser):
   # And the search result links pertain to "panda"
   for title in result_page.result_link_titles():
     assert PHRASE.lower() in title.lower()
-
-  # TODO: Remove this exception once the test is complete
-  raise Exception("Incomplete Test")
