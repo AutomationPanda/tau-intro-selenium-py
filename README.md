@@ -373,7 +373,7 @@ Rerun the test using `pipenv run python -m pytest`.
 The test should fail again, but this time, it should fail on one of the assertions.
 Then, commit your latest code changes. Part 3 is now complete!
 
-### Part 4: Finding Locators
+### Part 4: Finding Locators for Elements
 
 *Time Estimate: 15 Minutes*
 
