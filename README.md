@@ -781,7 +781,9 @@ but it should be able to run on other browsers, too.
 Any Web UI test should be configurable to run on any applicable browser.
 Let's run it on Headless Chrome and Firefox!
 
-Browser choice should be treated as a configuration parameter.
+Browser choice is an aspect of testing.
+In theory, every test should run on every supported browser.
+Thus, browser choice should be treated as an input for test automation.
 It should not be hard-coded into automation code.
 It should also not be written as pytest parameters.
 One test session should use one browser.
