@@ -1001,7 +1001,7 @@ from pages.result import DuckDuckGoResultPage
 from pages.search import DuckDuckGoSearchPage
 
 
-@pytest.mark.parametrize('phrase', ['panda', 'python', 'platypus'])
+@pytest.mark.parametrize('phrase', ['panda', 'python', 'polar bear'])
 def test_basic_duckduckgo_search(browser, phrase):
   search_page = DuckDuckGoSearchPage(browser)
   result_page = DuckDuckGoResultPage(browser)
@@ -1009,17 +1009,17 @@ def test_basic_duckduckgo_search(browser, phrase):
   # Given the DuckDuckGo home page is displayed
   search_page.load()
 
-  # When the user searches for "panda"
+  # When the user searches for the phrase
   search_page.search(phrase)
 
-  # Then the search result query is "panda"
+  # Then the search result query is the phrase
   assert phrase == result_page.search_input_value()
   
-  # And the search result links pertain to "panda"
+  # And the search result links pertain to the phrase
   for title in result_page.result_link_titles():
     assert phrase.lower() in title.lower()
 
-  # And the search result title contains "panda"
+  # And the search result title contains the phrase
   # (Putting this assertion last guarantees that the page title will be ready)
   assert phrase in result_page.title()
 ```
@@ -1051,6 +1051,13 @@ Also, look to see if any intermittent failures happen.
 Then, try using Headless Chrome.
 Most likely, Headless Chrome will be significantly faster and more reliable
 that regular Chrome and Firefox.
+
+As a warning, parallel testing can be dangerous.
+Make sure that tests avoid *collisions*.
+Collisions happen when tests simultaneously access shared state.
+For example, one test could try to access a database record while another test deletes it.
+Thankfully, our DuckDuckGo search tests do not have any collisions
+because they make independent searches in separate browser instances.
 
 Whenever running tests in parallel,
 carefully tune the number of threads to minimize the total test execution time.
