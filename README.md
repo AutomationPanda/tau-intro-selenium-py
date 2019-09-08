@@ -7,7 +7,7 @@ If you are taking the tutorial,
 then please clone this repository and follow the instructions below.
 The slide deck for the tutorial is also in this repository.
 
-## System Prerequisites
+## Python Setup
 
 You can complete this tutorial using any OS: Windows, macOS, Linux, etc.
 
@@ -23,6 +23,8 @@ and [Visual Studio Code](https://code.visualstudio.com/docs/languages/python).
 
 You will also need [Git](https://git-scm.com/) to copy this project code.
 If you are new to Git, [try learning the basics](https://try.github.io/).
+
+## WebDriver Setup
 
 For Web UI testing, you will need to install the latest versions of
 [Google Chrome](https://www.google.com/chrome/)
