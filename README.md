@@ -42,6 +42,7 @@ ChromeDriver and geckodriver must be installed on the
 [system path](https://en.wikipedia.org/wiki/PATH_(variable)).
 
 To install them on Windows:
+
 1. Create a folder named `C:\Selenium`.
 2. Move the executables into this folder.
 3. Add this folder to the *Path* environment variable. (See [How to Add to Windows PATH Environment Variable](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/).)
