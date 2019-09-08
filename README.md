@@ -8,6 +8,7 @@ then please clone this repository and follow the instructions below.
 The slide deck for the tutorial is also in this repository.
 
 ## System Prerequisites
+
 You can complete this tutorial using any OS: Windows, macOS, Linux, etc.
 
 This tutorial requires Python 3.7 or higher.
@@ -33,7 +34,8 @@ You will also need to install the latest versions of the WebDriver e
 [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) for Chrome
 and [geckodriver](https://github.com/mozilla/geckodriver/releases) for Firefox.
 Each test case will launch the WebDriver executable for its target browser.
-The WebDriver executable will act as a proxy between the test automation and the browser instance. Please use the latest versions of both the browsers and the WebDriver executables.
+The WebDriver executable will act as a proxy between the test automation and the browser instance.
+Please use the latest versions of both the browsers and the WebDriver executables.
 Older versions might be incompatible with each other.
 
 ChromeDriver and geckodriver must be installed on the
