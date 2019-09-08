@@ -7,6 +7,10 @@ If you are taking the tutorial,
 then please clone this repository and follow the instructions below.
 The slide deck for the tutorial is also in this repository.
 
+## System Prerequisites
+
+stuff
+
 ## Project Setup
 
 1. Clone this repository.
