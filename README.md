@@ -7,7 +7,8 @@ If you are taking the tutorial,
 then please clone this repository and follow the instructions below.
 The slide deck for the tutorial is also in this repository.
 
-## System Prerequisites
+## Python Setup
+
 You can complete this tutorial using any OS: Windows, macOS, Linux, etc.
 
 This tutorial requires Python 3.7 or higher.
@@ -23,29 +24,44 @@ and [Visual Studio Code](https://code.visualstudio.com/docs/languages/python).
 You will also need [Git](https://git-scm.com/) to copy this project code.
 If you are new to Git, [try learning the basics](https://try.github.io/).
 
+## WebDriver Setup
+
 For Web UI testing, you will need to install the latest versions of
 [Google Chrome](https://www.google.com/chrome/)
 and [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/).
-You can use other browsers with Selenium WebDriver,
-but the tutorial will use Chrome and Firefox.
+You can use other browsers with Selenium WebDriver, but the tutorial will use Chrome and Firefox.
 
-You will also need to install the latest versions of the WebDriver executables for these browsers:
-[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) for Chrome
+You will also need to install the latest versions of the WebDriver executables for these browsers: [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) for Chrome
 and [geckodriver](https://github.com/mozilla/geckodriver/releases) for Firefox.
 Each test case will launch the WebDriver executable for its target browser.
 The WebDriver executable will act as a proxy between the test automation and the browser instance.
-
 Please use the latest versions of both the browsers and the WebDriver executables.
 Older versions might be incompatible with each other.
 
-ChromeDriver and geckodriver must be on your [system path](https://en.wikipedia.org/wiki/PATH_(variable)).
-If you are not sure how to add directories to the path, follow these guides:
+ChromeDriver and geckodriver must be installed on the
+[system path](https://en.wikipedia.org/wiki/PATH_(variable)).
 
-* [Setting the path on Windows](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/)
+To install them on Windows:
+
+1. Create a folder named `C:\Selenium`.
+2. Move the executables into this folder.
+3. Add this folder to the *Path* environment variable. (See [How to Add to Windows PATH Environment Variable](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/).)
+
+To install them on Linux, macOS, and other UNIX variants,
+simply move them to the `/usr/local/bin/` directory:
+
+```bash
+$ mv /path/to/ChromeDriver /usr/local/bin
+$ mv /path/to/geckodriver /usr/local/bin
+```
+
+This directory should already be included in the system path.
+For troubleshooting, see:
+
 * [Setting the path on macOS](https://www.cyberciti.biz/faq/appleosx-bash-unix-change-set-path-environment-variable/)
 * [Setting the path on Linux](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix)
 
-To verify correct setup, simply try to run them from the terminal:
+To verify correct setup on any operating system, simply try to run them from the terminal:
 
 ```bash
 $ ChromeDriver
@@ -1157,6 +1173,7 @@ Thank you to the following individuals who graciously reviewed this tutorial:
 * Satyank Tiwari ([@satyanktiwari](https://twitter.com/satyanktiwari))
 * Adeel Mansoor ([@testadeel](https://twitter.com/testadeel))
 * Rick Clymer ([@clymerrm](https://twitter.com/clymerrm))
+* Katrina Durance ([@katdurance](https://twitter.com/katdurance))
 
 ## About the Author
 
