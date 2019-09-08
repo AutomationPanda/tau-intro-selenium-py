@@ -7,6 +7,10 @@ If you are taking the tutorial,
 then please clone this repository and follow the instructions below.
 The slide deck for the tutorial is also in this repository.
 
+## System Prerequisites
+
+You can complete this tutorial using any OS: Windows, macOS, Linux, etc.
+
 ## Project Setup
 
 1. Clone this repository.
