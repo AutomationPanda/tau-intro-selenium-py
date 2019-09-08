@@ -1173,7 +1173,7 @@ Thank you to the following individuals who graciously reviewed this tutorial:
 * Satyank Tiwari ([@satyanktiwari](https://twitter.com/satyanktiwari))
 * Adeel Mansoor ([@testadeel](https://twitter.com/testadeel))
 * Rick Clymer ([@clymerrm](https://twitter.com/clymerrm))
-* Katrina Durance ([@katdurance](https://twitter.com/katdurance))
+* Katrina Durance ([@katdurance](https://twitter.com/katdurance))
 
 ## About the Author
 
