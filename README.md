@@ -417,8 +417,8 @@ There are many types of locators:
 * Class name
 * CSS Selector
 * XPath
-* Link test
-* Partial link test
+* Link text
+* Partial link text
 * Tag name
 
 For example, if the page has the following element:
