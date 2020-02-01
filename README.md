@@ -108,6 +108,8 @@ If you get stuck, you can always check the example code.
 * `example/9-parallel-testing`
 * `example/develop` (main development branch for the examples)
 
+(*Note:* Chapter 1 does not have any example code.)
+
 # Course Instructions
 
 ## Chapter 1: Writing Our First Web UI Test
@@ -907,10 +909,10 @@ Let's revisit the test case steps:
 ```gherkin
 Scenario: Basic DuckDuckGo Search
     Given the DuckDuckGo home page is displayed
-    When the user searches for “panda”
-    Then the search result title contains “panda”
-    And the search result query is “panda”
-    And the search result links pertain to “panda”
+    When the user searches for "panda"
+    Then the search result title contains "panda"
+    And the search result query is "panda"
+    And the search result links pertain to "panda"
 ```
 
 Step 2 performs the search.
