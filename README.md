@@ -8,6 +8,8 @@ Each chapter will add a new layer to the solution.
 Follow the instructions in this README to code the solution as you take each chapter.
 If you get stuck, refer to the example code in this repository for help.
 
+# Setup Instructions
+
 ## Python Setup
 
 You can complete this course using any OS: Windows, macOS, Linux, etc.
@@ -96,41 +98,45 @@ To create your own branch named `course/develop`, run:
 The `example/*` branches contain the completed code for course parts.
 If you get stuck, you can always check the example code.
 
-* `example/1-first-test`
-* `example/2-webdriver-setup`
-* `example/3-page-objects`
-* `example/4-locators`
-* `example/5-webdriver-calls`
-* `example/6-browser-config`
-* `example/7-race-conditions`
-* `example/8-parallel-testing`
+* `example/2-pytest-setup`
+* `example/3-webdriver-setup`
+* `example/4-page-objects`
+* `example/5-locators`
+* `example/6-webdriver-calls`
+* `example/7-browser-config`
+* `example/8-race-conditions`
+* `example/9-parallel-testing`
 * `example/develop` (main development branch for the examples)
 
-## Course Instructions
+# Course Instructions
 
-### Part 1: Writing Our First Test
+## Chapter 1: Writing Our First Web UI Test
 
-*Time Estimate: 5 Minutes*
-
-*Example Branch: example/1-first-test*
+*No Example Branch for this chapter*
 
 We should always write test *cases* before writing any test *code*.
 Test cases are procedures that exercise behavior to verify goodness and identify badness.
 Test code simply automates test cases.
 Writing a test case first helps us form our thoughts well.
+I like to write my test cases in
+[Gherkin](https://automationpanda.com/2017/01/26/bdd-101-the-gherkin-language/).
 
-Consider the following test case:
+Below is the test case we will automate in this course:
 
 ```gherkin
 Scenario: Basic DuckDuckGo Search
     Given the DuckDuckGo home page is displayed
-    When the user searches for “panda”
-    Then the search result title contains “panda”
-    And the search result query is “panda”
-    And the search result links pertain to “panda”
+    When the user searches for "panda"
+    Then the search result title contains "panda"
+    And the search result query is "panda"
+    And the search result links pertain to "panda"
 ```
 
-Let's implement this test using pytest.
+## Chapter 2: Setting Up pytest
+
+*Example Branch: example/2-pytest-setup*
+
+Let's implement the test using pytest.
 Create a new file named `test_search.py` under the `tests` directory,
 and add the following code:
 
@@ -174,11 +180,9 @@ and it should fail due to the "Incomplete Test" exception.
 
 Finally, commit your code change. Part 1 is complete!
 
-### Part 2: Setting Up Selenium WebDriver
+## Chapter 3: Setting Up Selenium WebDriver
 
-*Time Estimate: 5 Minutes*
-
-*Example Branch: example/2-webdriver-setup*
+*Example Branch: example/3-webdriver-setup*
 
 [Selenium WebDriver](https://www.seleniumhq.org/projects/webdriver/)
 is a tool for automating Web UI interactions with live browsers.
@@ -256,11 +260,9 @@ Make sure Chrome quits once the test is done.
 Then, commit your latest code changes.
 Part 2 is now complete!
 
-### Part 3: Defining Page Objects
+## Chapter 4: Defining Page Objects
 
-*Time Estimate: 10 Minutes*
-
-*Example Branch: example/3-page-objects*
+*Example Branch: example/4-page-objects*
 
 A **page object** is an object representing a Web page or component.
 They have *locators* for finding elements,
@@ -390,11 +392,9 @@ Rerun the test using `pipenv run python -m pytest`.
 The test should fail again, but this time, it should fail on one of the assertions.
 Then, commit your latest code changes. Part 3 is now complete!
 
-### Part 4: Finding Locators for Elements
+## Chapter 5: Finding Locators for Elements
 
-*Time Estimate: 15 Minutes*
-
-*Example Branch: example/4-locators*
+*Example Branch: example/5-locators*
 
 An *element* is a "thing" on a Web page.
 Browsers render elements such as buttons, dropdowns, and input fields using the page's HTML code.
@@ -576,11 +576,9 @@ Although the test will still fail,
 rerun it using `pipenv run python -m pytest` to make sure our changes did no harm.
 Then, commit your latest code changes. Part 4 is now complete!
 
-### Part 5: Making WebDriver Calls
+## Chapter 6: Making WebDriver Calls
 
-*Time Estimate: 15 Minutes*
-
-*Example Branch: example/5-webdriver-calls*
+*Example Branch: example/6-webdriver-calls*
 
 Now we can implement all the page object methods using WebDriver calls.
 The [WebDriver API for Python](https://selenium-python.readthedocs.io/api.html)
@@ -787,11 +785,9 @@ Chrome should pop up and automatically go through all test steps.
 Try not to interfere with the browser as the test runs.
 Make sure pytest doesn't report any failures when it completes.
 
-### Part 6: Configuring Multiple Browsers
+## Chapter 7: Configuring Multiple Browsers
 
-*Time Estimate: 15 Minutes*
-
-*Example Branch: example/6-browser-config*
+*Example Branch: example/7-browser-config*
 
 Our test currently runs on Chrome,
 but it should be able to run on other browsers, too.
@@ -891,11 +887,9 @@ It's great for automated testing because it's slightly more efficient than "regu
 Finally, try "Firefox". Does it work? Warning: it may or may not! Oh no!
 Don't panic if it doesn't work. We'll fix it in the next part.
 
-### Part 7: Handling Race Conditions
+## Chapter 8: Handling Race Conditions
 
-*Time Estimate: 15 Minutes*
-
-*Example Branch: example/7-race-conditions*
+*Example Branch: example/8-race-conditions*
 
 When running the search test using Firefox, you might hit the following failure:
 
@@ -994,11 +988,9 @@ Always watch out for race conditions,
 always wait for things to be ready before interacting with them,
 and always run tests multiple times across multiple configurations to identify problems.
 
-### Part 8: Running Tests in Parallel
+## Chapter 9: Running Tests in Parallel
 
-*Time Estimate: 15 Minutes*
-
-*Example Branch: example/8-parallel-testing*
+*Example Branch: example/9-parallel-testing*
 
 Unfortunately, Web UI tests are very slow compared to unit tests and service API tests.
 The best way to speed them up is to run them in parallel.
