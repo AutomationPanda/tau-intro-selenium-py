@@ -1,20 +1,21 @@
-# djangocon-2019-web-ui-testing
+# tau-intro-selenium-py
 This repository contains the companion project for the
-[Hands-On Web UI Testing](https://2019.djangocon.us/tutorials/hands-on-web-ui-testing/) tutorial
-taught by [Pandy Knight](https://twitter.com/AutomationPanda)
-at [DjangoCon 2019](https://2019.djangocon.us/).
-If you are taking the tutorial,
-then please clone this repository and follow the instructions below.
-The slide deck for the tutorial is also in this repository.
+*Introduction to Selenium WebDriver with Python* course
+taught by [Andrew "Pandy" Knight](https://twitter.com/AutomationPanda)
+on [Test Automation University](https://testautomationu.applitools.com/).
+During the course, you will build a basic Web UI test automation solution using Python and Selenium WebDriver.
+Each chapter will add a new layer to the solution.
+Follow the instructions in this README to code the solution as you take each chapter.
+If you get stuck, refer to the example code in this repository for help.
 
 ## Python Setup
 
-You can complete this tutorial using any OS: Windows, macOS, Linux, etc.
+You can complete this course using any OS: Windows, macOS, Linux, etc.
 
-This tutorial requires Python 3.7 or higher.
+This course requires Python 3.8 or higher.
 You can download the latest Python version from [Python.org](https://www.python.org/downloads/).
 
-This tutorial also requires [pipenv](https://docs.pipenv.org/).
+This course also requires [pipenv](https://docs.pipenv.org/).
 To install pipenv, run `pip install pipenv` from the command line.
 
 You should also have a Python editor/IDE of your choice.
@@ -29,7 +30,7 @@ If you are new to Git, [try learning the basics](https://try.github.io/).
 For Web UI testing, you will need to install the latest versions of
 [Google Chrome](https://www.google.com/chrome/)
 and [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/).
-You can use other browsers with Selenium WebDriver, but the tutorial will use Chrome and Firefox.
+You can use other browsers with Selenium WebDriver, but the course will use Chrome and Firefox.
 
 You will also need to install the latest versions of the WebDriver executables for these browsers: [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) for Chrome
 and [geckodriver](https://github.com/mozilla/geckodriver/releases) for Firefox.
@@ -75,24 +76,24 @@ Use Ctrl-C to kill them.
 ## Project Setup
 
 1. Clone this repository.
-2. Run `cd djangocon-2019-web-ui-testing` to enter the project.
+2. Run `cd tau-intro-selenium-py` to enter the project.
 3. Run `pipenv install` to install the dependencies.
 4. Run `pipenv run python -m pytest` to verify that the framework can run tests.
 5. Create a branch for your code changes. (See *Repository Branching* below.)
 
 ## Repository Branching
 
-The `master` branch contains the code for the tutorial's starting point.
+The `master` branch contains the code for the course's starting point.
 The project is basically empty in the `master` branch.
 
-If you want to code along with the tutorial, then create a branch for your work off the `master` branch.
-To create your own branch named `tutorial/develop`, run:
+If you want to code along with the course, then create a branch for your work off the `master` branch.
+To create your own branch named `course/develop`, run:
 
     > git checkout master
-    > git branch tutorial/develop
-    > git checkout tutorial/develop
+    > git branch course/develop
+    > git checkout course/develop
 
-The `example/*` branches contain the completed code for tutorial parts.
+The `example/*` branches contain the completed code for course parts.
 If you get stuck, you can always check the example code.
 
 * `example/1-first-test`
@@ -105,7 +106,7 @@ If you get stuck, you can always check the example code.
 * `example/8-parallel-testing`
 * `example/develop` (main development branch for the examples)
 
-## Tutorial Instructions
+## Course Instructions
 
 ### Part 1: Writing Our First Test
 
@@ -491,7 +492,7 @@ SEARCH_INPUT = (By.ID, 'search_form_input_homepage')
 
 `By` contains property keys for each type of locator.
 We can write locators as tuples of the locator type and the query string.
-(We will use this locator for interaction calls in the next part of the tutorial.)
+(We will use this locator for interaction calls in the next part of the course.)
 
 The full code for `pages/search.py` should now look like this:
 
@@ -1096,11 +1097,11 @@ Check the *Resources* section below for a list.
 To learn more about parallel testing in general, read
 [To Infinity and Beyond: A Guide to Parallel Testing](https://automationpanda.com/2018/01/21/to-infinity-and-beyond-a-guide-to-parallel-testing/).
 
-Congrats! You have completed the guided part of this tutorial!
+Congrats! You have completed the guided part of this course!
 
 ## Independent Exercises
 
-The guided tutorial covered one very basic search test, but DuckDuckGo has many more features.
+The guided course covered one very basic search test, but DuckDuckGo has many more features.
 Try to write some new tests for DuckDuckGo independently.
 Here are some suggestions:
 
@@ -1123,27 +1124,17 @@ If you get stuck, ask for help.
 
 ## Additional Resources
 
-This DjangoCon 2019 *Hands-On Web UI Testing* tutorial is related to other tutorials by Andrew Knight:
+This Test Automation University course is based on several other tutorials by Andrew Knight:
 
+* DjangoCon 2019: [Hands-On Web UI Testing](https://github.com/AndyLPK247/djangocon-2019-web-ui-testing)
 * PyOhio 2019: [Hands-On Web UI Testing](https://github.com/AndyLPK247/pyohio-2019-web-ui-testing)
 * TestProject: [Web Testing Made Easy with Python, Pytest and Selenium WebDriver](https://blog.testproject.io/2019/07/09/open-source-test-automation-python-pytest-selenium-webdriver/)
-* SmartBear: [Hands-On UI Testing with Python](https://automationpanda.com/2019/08/19/hands-on-ui-testing-with-python-smartbear-webinar/)
 
-[Test Automation University](https://testautomationu.applitools.com/)
-offers free online courses on several testing and automation topics.
-All TAU courses are great, but the following ones compliment this tutorial especially well:
+Related TAU courses:
 
 * [Web Element Locator Strategies](https://testautomationu.applitools.com/web-element-locator-strategies/) shows how to write good locators and use Chrome DevTools.
 * [Behavior-Driven Python with pytest-bdd](https://testautomationu.applitools.com/behavior-driven-python-with-pytest-bdd/) shows how to use `pytest-bdd` to write BDD-style tests.
 * [Setting a Foundation for Successful Test Automation](https://testautomationu.applitools.com/setting-a-foundation-for-successful-test-automation/) shows how to run a testing project the right way.
-
-Many companies provide cloud-based solutions for parallel, multi-browser, multi-platform Web UI testing that work with WebDriver:
-
-* [BrowserStack](https://www.browserstack.com/)
-* [LambdaTest](https://www.lambdatest.com/)
-* [Sauce Labs](https://saucelabs.com/)
-* [SmartBear CrossBrowserTesting](https://crossbrowsertesting.com/)
-* [TestProject](https://testproject.io/)
 
 Other helpful links:
 
@@ -1161,23 +1152,9 @@ Other helpful links:
 * [pytest.org](https://docs.pytest.org/)
 * [Selenium Grid wiki](https://github.com/SeleniumHQ/selenium/wiki/Grid2)
 
-## Special Thanks from Pandy
-
-Thank you to [DjangoCon 2019](https://2019.djangocon.us/) for inviting me to deliver this tutorial!
-
-Thank you to all the students who participated in this tutorial at DjangoCon 2019.
-
-Thank you to the following individuals who graciously reviewed this tutorial:
-
-* Michael Lynch ([@deliberatecoder](https://twitter.com/deliberatecoder))
-* Satyank Tiwari ([@satyanktiwari](https://twitter.com/satyanktiwari))
-* Adeel Mansoor ([@testadeel](https://twitter.com/testadeel))
-* Rick Clymer ([@clymerrm](https://twitter.com/clymerrm))
-* Katrina Durance ([@katdurance](https://twitter.com/katdurance))
-
 ## About the Author
 
-This tutorial was written and delivered by **Andrew Knight** (aka *Pandy*), the "Automation Panda".
+This course was written and delivered by **Andrew Knight** (aka *Pandy*), the "Automation Panda".
 Andy is a Pythonista who specializes in testing and automation.
 
 * Twitter: [@AutomationPanda](https://twitter.com/AutomationPanda)
