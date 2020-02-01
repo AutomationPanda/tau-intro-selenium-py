@@ -123,7 +123,9 @@ Writing a test case first helps us form our thoughts well.
 I like to write my test cases in
 [Gherkin](https://automationpanda.com/2017/01/26/bdd-101-the-gherkin-language/).
 
-Below is the test case we will automate in this course:
+In this course, we will automate a test for a basic DuckDuckGo search.
+[DuckDuckGo](https://duckduckgo.com/) is a popular search engine that's easy to test.
+Here's our first Web UI test case:
 
 ```gherkin
 Scenario: Basic DuckDuckGo Search
