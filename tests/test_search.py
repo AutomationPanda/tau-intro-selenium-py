@@ -23,8 +23,9 @@ def test_basic_duckduckgo_search(browser, phrase):
   assert phrase == result_page.search_input_value()
   
   # And the search result links pertain to the phrase
-  for title in result_page.result_link_titles():
-    assert phrase.lower() in title.lower()
+  titles = result_page.result_link_titles()
+  matches = [t for t in titles if phrase.lower() in t.lower()]
+  assert len(matches) > 0
 
   # And the search result title contains the phrase
   # (Putting this assertion last guarantees that the page title will be ready)
