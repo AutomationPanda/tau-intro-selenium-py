@@ -182,8 +182,6 @@ Rerun the tests using `pipenv run python -m pytest`.
 The `test_basic_duckduckgo_search` should be the only test that runs,
 and it should fail due to the "Incomplete Test" exception.
 
-Finally, commit your code change. Part 1 is complete!
-
 ## Chapter 3: Setting Up Selenium WebDriver
 
 *Example Branch: example/3-webdriver-setup*
@@ -262,7 +260,6 @@ Even though the test should still fail,
 Chrome should briefly pop up for a few seconds while the test is running.
 Make sure Chrome quits once the test is done.
 Then, commit your latest code changes.
-Part 2 is now complete!
 
 ## Chapter 4: Defining Page Objects
 
@@ -394,7 +391,7 @@ It delivers clear testing value.
 
 Rerun the test using `pipenv run python -m pytest`.
 The test should fail again, but this time, it should fail on one of the assertions.
-Then, commit your latest code changes. Part 3 is now complete!
+Then, commit your latest code changes.
 
 ## Chapter 5: Finding Locators for Elements
 
@@ -578,7 +575,7 @@ from [Test Automation University](https://testautomationu.applitools.com/).
 
 Although the test will still fail,
 rerun it using `pipenv run python -m pytest` to make sure our changes did no harm.
-Then, commit your latest code changes. Part 4 is now complete!
+Then, commit your latest code changes.
 
 ## Chapter 6: Making WebDriver Calls
 
