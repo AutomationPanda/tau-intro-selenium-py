@@ -98,7 +98,7 @@ encountered the following error when executing `pipenv run python -m pytest`:
 ModuleNotFoundError: No module named 'atomicwrites'
 ```
 
-I do not know exactly why this error happens.
+I'm not exactly sure why `pipenv install` does not include `atomicwrites`.
 So far, I have seen it happen only on Windows.
 To resolve the error, please attempt the following:
 
@@ -106,11 +106,14 @@ To resolve the error, please attempt the following:
   * Python 3.8.3 (`python --version`)
   * pip 20.1 (`pip --version`)
   * pipenv 2018.11.26 (`pipenv --version`)
+* Run `pipenv update` from within the project directory.
+
+If upgrades don't work, try forcing package installation:
+
 * Run `pipenv install pytest` from within the project directory.
 * Run `pipenv install atomicwrites` from within the project directory.
 
-These steps worked for me.
-If they don't work in your project, then try to run without pipenv:
+If these steps don't work in your project, then try to run without pipenv:
 
 * Install Python packages directly using `pip`.
 * Run tests directly using `python -m pytest`.
