@@ -44,13 +44,17 @@ Older versions might be incompatible with each other.
 ChromeDriver and geckodriver must be installed on the
 [system path](https://en.wikipedia.org/wiki/PATH_(variable)).
 
-To install them on Windows:
+### WebDriver Setup for Windows
+
+To install ChromeDriver and geckodriver on Windows:
 
 1. Create a folder named `C:\Selenium`.
 2. Move the executables into this folder.
 3. Add this folder to the *Path* environment variable. (See [How to Add to Windows PATH Environment Variable](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/).)
 
-To install them on Linux, macOS, and other UNIX variants,
+### WebDriver Setup for *NIX
+
+To install ChromeDriver and geckodriver on Linux, macOS, and other UNIX variants,
 simply move them to the `/usr/local/bin/` directory:
 
 ```bash
@@ -63,6 +67,8 @@ For troubleshooting, see:
 
 * [Setting the path on macOS](https://www.cyberciti.biz/faq/appleosx-bash-unix-change-set-path-environment-variable/)
 * [Setting the path on Linux](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix)
+
+### Test WebDriver Setup
 
 To verify correct setup on any operating system, simply try to run them from the terminal:
 
@@ -82,6 +88,32 @@ Use Ctrl-C to kill them.
 3. Run `pipenv install` to install the dependencies.
 4. Run `pipenv run python -m pytest` to verify that the framework can run tests.
 5. Create a branch for your code changes. (See *Repository Branching* below.)
+
+### Project Setup Troubleshooting
+
+A few people attempting to set up this project
+encountered the following error when executing `pipenv run python -m pytest`:
+
+```
+ModuleNotFoundError: No module named 'atomicwrites'
+```
+
+I do not know exactly why this error happens.
+So far, I have seen it happen only on Windows.
+To resolve the error, please attempt the following:
+
+* Upgrade Python to the latest versions. The following worked for me on Windows:
+  * Python 3.8.3 (`python --version`)
+  * pip 20.1 (`pip --version`)
+  * pipenv 2018.11.26 (`pipenv --version`)
+* Run `pipenv install pytest` from within the project directory.
+* Run `pipenv install atomicwrites` from within the project directory.
+
+These steps worked for me.
+If they don't work in your project, then try to run without pipenv:
+
+* Install Python packages directly using `pip`.
+* Run tests directly using `python -m pytest`.
 
 ## Repository Branching
 
