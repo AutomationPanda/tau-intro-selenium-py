@@ -19,4 +19,5 @@ def test_basic_duckduckgo_search():
     # And the search result links pertain to "panda"
     # TODO
 
+    # Fails the test but automation will still continue for other test files
     raise Exception("Incomplete Test")
